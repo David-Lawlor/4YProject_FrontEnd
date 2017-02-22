@@ -25,10 +25,13 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/">Dashboard</a></li>
-                    <li><a href="/users/register">Register</a></li>
-                    <li><a href="/users/login">Login</a></li>
-                    <li><a href="/users/logout">Logout</a></li>
+                    {{#if user}}
+                        <li><a href="/">Dashboard</a></li>
+                        <li><a href="/users/logout">Logout</a></li>
+                    {{else}}
+                        <li><a href="/users/register">Register</a></li>
+                        <li><a href="/users/login">Login</a></li>
+                    {{/if}}
                 </ul>
             </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
@@ -36,6 +39,17 @@
 
     <div class="row">
         <div class="col-lg-12">
+            {{#if success_msg}}
+                <div class="alert alert-success">{{success_msg}}</div>
+            {{/if}}
+
+            {{#if error_msg}}
+                <div class="alert alert-danger">{{error_msg}}</div>
+            {{/if}}
+
+            {{#if error}}
+                <div class="alert alert-danger">{{error}}</div>
+            {{/if}}
             {{{body}}}
         </div>
     </div>
