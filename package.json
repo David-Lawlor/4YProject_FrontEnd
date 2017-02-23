@@ -7,26 +7,26 @@
   },
   "engines": {
     "node": "~7.3.0",
-    "npm":  "~4.0.5"
+    "npm": "~4.0.5"
   },
   "dependencies": {
     "aws-sdk": ">= 2.0.9",
+    "bcryptjs": "*",
+    "body-parser": "latest",
+    "connect-flash": "*",
+    "cookie-parser": "latest",
     "debug": "~2.2.0",
     "express": "~4.14.0",
     "express-handlebars": "*",
-    "serve-favicon": "~2.3.0",
-    "morgan": "~1.7.0",
-    "body-parser": "latest",
-    "cookie-parser": "latest",
-    "method-override": "latest",
-    "express-session": "*",
-    "bcryptjs": "*",
-    "connect-flash": "*",
     "express-messages": "*",
+    "express-session": "*",
     "express-validator": "*",
+    "method-override": "latest",
+    "morgan": "~1.7.0",
     "passport": "*",
+    "passport-google-oauth": "^1.0.0",
     "passport-http": "*",
-    "passport-local": "*"
-
+    "passport-local": "*",
+    "serve-favicon": "~2.3.0"
   }
 }

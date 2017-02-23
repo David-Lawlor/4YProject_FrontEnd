@@ -1,7 +1,7 @@
 /.idea/*
 
 /node_modules
-
+/app_server/config/auth.js
 # Logs
 logs
 *.log

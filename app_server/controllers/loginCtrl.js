@@ -1,6 +1,5 @@
 var User = require("../model/user");
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+
 
 module.exports.GetLogout = function(req, res) {
     req.logout();
@@ -23,7 +22,6 @@ module.exports.GetRegister = function(req, res) {
 
 module.exports.PostRegister = function(req, res) {
     var name = req.body.name;
-    var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
     var confirm = req.body.confirm;
@@ -32,7 +30,6 @@ module.exports.PostRegister = function(req, res) {
     req.checkBody('name', 'Name is Required').notEmpty();
     req.checkBody("email", "Email is Required").notEmpty();
     req.checkBody("email", "Invalid email").isEmail();
-    req.checkBody("username", "Username is Required").notEmpty();
     req.checkBody("password", "Password is Required").notEmpty();
     req.checkBody("password", "Password must be Alphanumeric").isAlphanumeric();
     req.checkBody("password", "Password must be 8 digits long").isLength(8);
@@ -48,7 +45,7 @@ module.exports.PostRegister = function(req, res) {
     }
     else
     {
-        var newUser = new User(username, email, password, name);
+        var newUser = new User.User(email, password, name);
         console.log(newUser);
 
         User.createUser(newUser, function (err, user)
@@ -62,36 +59,6 @@ module.exports.PostRegister = function(req, res) {
         res.redirect("/users/login");
     }
 };
-
-
-
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-        User.getUserByUsername(username, function(err, user){
-            if(err) throw err;
-            if(!user){
-                return done(null, false, {message: 'Unknown User'});
-            }
-            User.comparePassword(password, user.password, function(err, isMatch){
-                if(err) throw err;
-                if(isMatch){
-                    return done(null, user);
-                }
-                else{
-                    return done(null, false, {message: 'Invalid Password'});
-                }
-            });
-        });
-    }));
-
-
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
 
 
 
