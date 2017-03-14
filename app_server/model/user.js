@@ -6,12 +6,17 @@ AWS.config.update(database.dbconfig);
 
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-module.exports.User = function User(email, password, name) {
+
+// user definition
+module.exports.User = function User(email, password, name, mac) {
     this.email = email;
     this.password = password;
     this.name = name;
+    this.mac = mac;
 };
 
+
+// Google user object
 module.exports.GoogleUser = function User(id, token, displayName, email) {
     this.id = id;
     this.token = token;
@@ -19,16 +24,16 @@ module.exports.GoogleUser = function User(id, token, displayName, email) {
     this.email = email;
 };
 
-//var User = module.exports = User;
 
+// create the user
 module.exports.createUser = function (newUser, callback) {
-    //console.log(newUser);
     var params = {
         TableName: "users",
         Item: {
             "email": newUser.email,
             "password": newUser.password,
-            "name": newUser.name
+            "name": newUser.name,
+            "mac": newUser.mac
         }
     };
     bcrypt.genSalt(10, function (err, salt) {
@@ -46,6 +51,8 @@ module.exports.createUser = function (newUser, callback) {
     });
 };
 
+
+// create a google user
 module.exports.createGoogleUser = function (newUser, callback) {
     //console.log(newUser);
     var params = {

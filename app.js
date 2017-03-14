@@ -35,6 +35,10 @@ app.use(express.static(__dirname));
 // Express Session middleware
 app.use(session({
     secret: 'secret',
+    cookie: {
+        // 5 minute  cookie timeout
+        maxAge: 300000
+    },
     saveUninitialized: true,
     resave: true
 }));
@@ -103,6 +107,7 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 
-app.listen(app.get('port'), function(){
-    console.log('Server started on port '+app.get('port'));
+
+var listener = app.listen(3001, function(){
+    console.log('Listening on port ' + listener.address().port); //Listening on port 8888
 });

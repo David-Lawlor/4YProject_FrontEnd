@@ -25,6 +25,7 @@ module.exports.PostRegister = function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
     var confirm = req.body.confirm;
+    var mac = req.body.mac;
 
     req.checkBody('name', 'Name cannot be numbers').isAlpha();
     req.checkBody('name', 'Name is Required').notEmpty();
@@ -33,8 +34,7 @@ module.exports.PostRegister = function(req, res) {
     req.checkBody("password", "Password is Required").notEmpty();
     req.checkBody("password", "Password must be Alphanumeric").isAlphanumeric();
     req.checkBody("password", "Password must be 8 digits long").isLength(8);
-
-
+    req.checkBody("mac", "Mac address must be valid").matches(/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/, mac);
     req.checkBody("confirm", "Passwords do not match").equals(password);
 
     var errors = req.validationErrors();
@@ -45,7 +45,7 @@ module.exports.PostRegister = function(req, res) {
     }
     else
     {
-        var newUser = new User.User(email, password, name);
+        var newUser = new User.User(email, password, name, mac);
         console.log(newUser);
 
         User.createUser(newUser, function (err, user)
