@@ -50,13 +50,19 @@ module.exports.PostRegister = function(req, res) {
 
         User.createUser(newUser, function (err, user)
         {
-            if(err) throw err;
-            console.log(user);
+            console.log("?");
+            if(err){
+                console.log("here in err");
+                req.flash('error_msg', 'User already exists');
+                res.redirect("/users/register");
+                console.log(user);
+            }
+            else{
+                console.log("not in err");
+                req.flash('success_msg', 'You are now registered');
+                res.redirect("/users/login");
+            }
         });
-
-        req.flash('success_msg', 'You are now registered');
-
-        res.redirect("/users/login");
     }
 };
 

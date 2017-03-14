@@ -27,28 +27,52 @@ module.exports.GoogleUser = function User(id, token, displayName, email) {
 
 // create the user
 module.exports.createUser = function (newUser, callback) {
-    var params = {
+
+    var usersearch = {
         TableName: "users",
-        Item: {
-            "email": newUser.email,
-            "password": newUser.password,
-            "name": newUser.name,
-            "mac": newUser.mac
+        KeyConditionExpression: "email = :emailIn",
+        ExpressionAttributeValues: {
+            ":emailIn": newUser.email
         }
     };
-    bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(params.Item.password, salt, function (err, hash) {
-            params.Item.password = hash;
-            docClient.put(params, function (err, data) {
-                if (err) {
-                    console.error("Unable to add item. Error JSON:", JSON.stringify(err,
-                        null, 2));
-                } else {
-                    console.log("Added item:", JSON.stringify(data, null, 2));
+
+    userExists(usersearch, function (existingUser) {
+        console.log("gjgyu " + existingUser);
+        console.log(existingUser);
+
+        console.log("existing: " + existingUser);
+        if (!existingUser) {
+            var params = {
+                TableName: "users",
+                Item: {
+                    "email": newUser.email,
+                    "password": newUser.password,
+                    "name": newUser.name,
+                    "mac": newUser.mac
                 }
+            };
+
+            // encrypt the password
+            bcrypt.genSalt(10, function (err, salt) {
+                bcrypt.hash(params.Item.password, salt, function (err, hash) {
+                    params.Item.password = hash;
+                    docClient.put(params, function (err, data) {
+                        if (err) {
+                            console.error("Unable to add item. Error JSON:", JSON.stringify(err,
+                                null, 2));
+                        } else {
+                            console.log("Added item:", JSON.stringify(data, null, 2));
+                        }
+                    });
+                });
             });
-        });
+        }
+        else {
+            callback(new Error("User already exists"));
+        }
     });
+
+
 };
 
 
@@ -119,3 +143,23 @@ module.exports.comparePassword = function (passwordIn, hash, callback) {
         callback(null, isMatch);
     });
 };
+
+function userExists(userSearch, callback) {
+    docClient.query(userSearch, function (err, data) {
+        if (err) {
+            console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+        } else {
+            console.log("Query succeeded.");
+        }
+        console.log("1");
+        console.log(data.Items[0]);
+        if(data.Items[0]){
+            console.log("2");
+            callback(data.Items[0].email);
+        }
+        else{
+            console.log("3");
+            callback();
+        }
+    });
+}
