@@ -2,7 +2,7 @@ var User = require("../model/user");
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var configAuth = require('./auth');
+//var configAuth = require('./auth');
 
 passport.use(new LocalStrategy(
     function (username, password, done) {
@@ -28,9 +28,9 @@ passport.use(new LocalStrategy(
 
 passport.use(new GoogleStrategy({
 
-        clientID: configAuth.googleAuth.clientID,
-        clientSecret: configAuth.googleAuth.clientSecret,
-        callbackURL: configAuth.googleAuth.callbackURL
+        clientID: process.env.googleClientID,
+        clientSecret: process.env.googleClientSecret,
+        callbackURL: process.env.googleCallbackURL
 
     },
     function (token, refreshToken, profile, done) {
