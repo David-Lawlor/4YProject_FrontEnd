@@ -29,7 +29,7 @@ module.exports.GoogleUser = function User(id, token, displayName, email) {
 module.exports.createUser = function (newUser, callback) {
 
     var usersearch = {
-        TableName: "users",
+        TableName: "Users",
         KeyConditionExpression: "email = :emailIn",
         ExpressionAttributeValues: {
             ":emailIn": newUser.email
@@ -43,7 +43,7 @@ module.exports.createUser = function (newUser, callback) {
         console.log("existing: " + existingUser);
         if (!existingUser) {
             var params = {
-                TableName: "users",
+                TableName: "Users",
                 Item: {
                     "email": newUser.email,
                     "password": newUser.password,
@@ -80,7 +80,7 @@ module.exports.createUser = function (newUser, callback) {
 module.exports.createGoogleUser = function (newUser, callback) {
     //console.log(newUser);
     var params = {
-        TableName: "users",
+        TableName: "Users",
         Item: {
             "id": newUser.id,
             "token": newUser.token,
@@ -101,7 +101,7 @@ module.exports.createGoogleUser = function (newUser, callback) {
 
 module.exports.getUserByEmail = function (emailIn, callback) {
     var params = {
-        TableName: "users",
+        TableName: "Users",
         KeyConditionExpression: "email = :emailIn",
         ExpressionAttributeValues: {
             ":emailIn": emailIn
@@ -121,7 +121,7 @@ module.exports.getUserByEmail = function (emailIn, callback) {
 
 module.exports.getUserByGoogleID = function (googleProfileIdIn, callback) {
     var params = {
-        TableName: "users",
+        TableName: "Users",
         KeyConditionExpression: "email = :emailIn",
         ExpressionAttributeValues: {
             ":emailIn": googleProfileIdIn.email
