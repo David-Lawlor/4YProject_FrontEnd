@@ -51,6 +51,12 @@ body {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
+@media only screen and (max-width: 500px) {
+    .form-surround  {
+        width:100%;
+    }
+}
+
 .form-surround h3 {
     text-align: center;
     margin: 0;
@@ -136,6 +142,19 @@ input::-webkit-input-placeholder {
 
 .btn-google-plus:active, .btn-google-plus.active, .open .dropdown-toggle.btn-google-plus {
     background-image: none
+}
+
+.nav-time span{
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    text-align: center;
+    margin-right: 100px;
+}
+
+.nav-time:hover{
+    text-decoration: none;
+    color: white;
 }
 
 

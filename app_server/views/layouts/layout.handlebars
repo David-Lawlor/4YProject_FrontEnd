@@ -6,20 +6,15 @@
     <link href="/public/css/bootstrap.css" rel="stylesheet">
     <link href="/public/css/font-awesome.css" rel="stylesheet">
     <link href="/public/css/style.css" rel="stylesheet">
+    <link href="/public/css/keen-dashboards.css" rel="stylesheet">
 
 
-    <script src="/node_modules/angular/angular.js"></script>
-    <script src="/public/js/jquery-3.1.1.js"></script>
-    <script src="/public/js/angularApp.js"></script>
-    <script src="/public/js/services/changeAngularBinding.js"></script>
-    <script src="/public/js/bootstrap.js"></script>
-    <script src="/node_modules/chart.js/dist/Chart.min.js"></script>
-    <script src="/node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+
 </head>
 
 <body ng-app="dashboard">
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
+        <div class="container-fluid" ng-controller="ClockController">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -31,6 +26,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="nav-time">
+                            <span>{[{days[date.getDay()]}]} {[{months[date.getMonth()]}]} {[{date.getDate() | addSuffix}]} Time {[{date.getHours() | pad}]}:{[{date.getMinutes() | pad}]}:{[{date.getSeconds() | pad}]}</span>
+                        </a>
+                    </li>
                     {{#if user}}
                         <li><a href="/">Dashboard</a></li>
                         <li><a href="/users/logout">Logout</a></li>
@@ -56,7 +56,11 @@
                 <div class="alert alert-danger">{{error}}</div>
             {{/if}}
 
-            {{{body}}}
+            <div ng-controller="mainController">
+                {{{body}}}
+
+            </div>
+
 
         </div>
     </div>
@@ -65,15 +69,19 @@
     <div class="container-fluid">
         <p>&copy; David Lawlor 2017</p>
     </div>
-    <script>
+    <script src="/node_modules/angular/angular.js"></script>
+    <script src="/public/js/jquery-3.1.1.js"></script>
+    <script src="/public/js/angularApp.js"></script>
+    <script src="/public/js/services/changeAngularBinding.js"></script>
+    <script src="/public/js/bootstrap.js"></script>
+    <script src="/node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="/node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
 
-        app.controller('mainController', function($scope){
-            $scope.names = [
-                { name: 'A'},
-                { name: 'B'},
-                { name: 'C'}
-            ]
-        });
-    </script>
+    <script src="/public/js/controller/Room1Temp.js"></script>
+    <script src="/public/js/controller/Room1Light.js"></script>
+    <script src="/public/js/controller/Room2Temp.js"></script>
+    <script src="/public/js/controller/Room2Humidity.js"></script>
+    <script src="/public/js/controller/Clock.js"></script>
+
 </body>
 </html>

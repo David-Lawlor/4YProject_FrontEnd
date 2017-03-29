@@ -1,7 +1,60 @@
 <div ng-controller="mainController">
-    <h2 class="page-header">Dashboard</h2>
-    <p>Welcome to your dashboard</p>
-
+    <h5 class="page-header">Welcome to your dashboard  {{username}} </h5>
 </div>
+
+
+    <div class="row">
+        <div class="col-sm-6 col-md-3" ng-controller="Room1Temp">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Room 1 Temperature
+                </div>
+                <div class="chart-stage">
+                    <div id="grid-1-1">
+                        <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
+                                chart-series="series" chart-click="onClick"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3" ng-controller="Room1Light">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Room 1 Light
+                </div>
+                <div class="chart-stage">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3" ng-controller="Room2Temp">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Room 2 Temperature
+                </div>
+                <div class="chart-stage">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3" ng-controller="Room2Humid">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Room 2 Humidity
+                </div>
+                <div class="chart-stage">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 
 
