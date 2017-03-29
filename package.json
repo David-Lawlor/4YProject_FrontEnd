@@ -22,6 +22,7 @@
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
+    "http-browserify": "^1.7.0",
     "method-override": "latest",
     "morgan": "~1.7.0",
     "passport": "*",
