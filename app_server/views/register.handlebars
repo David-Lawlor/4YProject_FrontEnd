@@ -1,60 +1,59 @@
-<h2 class="page-header">Register</h2>
-{{#if errors}}
-    {{#each errors}}
-        <div class="alert alert-danger">{{msg}}</div>
-    {{/each}}
-{{/if}}
-<form class="form-signin" method="post" action="/users/register">
-    <div class="form-group">
-        <label for="name" class="cols-sm-2 control-label">Your Name</label>
-        <div class="cols-sm-10">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+
+<div class="form-surround">
+    {{#if errors}}
+        {{#each errors}}
+            <div class="alert alert-danger">{{msg}}</div>
+        {{/each}}
+    {{/if}}
+    <h3 class="page-header">Register</h3>
+    <form class="form-signin" method="post" action="/users/register">
+        <div class="form-group">
+            <label for="name" class="cols-sm-2 control-label">Your Name</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="email" class="cols-sm-2 control-label">Your Email</label>
-        <div class="cols-sm-10">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+        <div class="form-group">
+            <label for="email" class="cols-sm-2 control-label">Your Email</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="password" class="cols-sm-2 control-label">Password</label>
-        <div class="cols-sm-10">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+        <div class="form-group">
+            <label for="password" class="cols-sm-2 control-label">Password</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
-        <div class="cols-sm-10">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+        <div class="form-group">
+            <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="confirm" class="cols-sm-2 control-label">Device Mac Address</label>
-        <div class="cols-sm-10">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                <input type="text" class="form-control" name="mac" id="mac"  placeholder="Enter your mac address"
-                       data-toggle="tooltip" data-placement="bottom" title="ie xx:xx:xx:xx:xx:xx"/>
+        <div class="form-group">
+            <label for="confirm" class="cols-sm-2 control-label">Device Mac Address</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="mac" id="mac"  placeholder="Enter your mac address"
+                           data-toggle="tooltip" data-placement="bottom" title="ie xx:xx:xx:xx:xx:xx"/>
+                </div>
             </div>
         </div>
-    </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-</form>
+        <button class="btn btn-md btn-primary btn-block" type="submit">Register</button>
+    </form>
+
+</div>

@@ -10,6 +10,7 @@
     "npm": "~4.0.5"
   },
   "dependencies": {
+    "angular-chart.js": "^1.1.1",
     "aws-sdk": ">= 2.0.9",
     "bcryptjs": "*",
     "body-parser": "latest",

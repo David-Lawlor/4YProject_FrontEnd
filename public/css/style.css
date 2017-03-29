@@ -1,20 +1,17 @@
 body {
-    background-color: #b2ccf4;
+    background: #f2f2f2;
+    font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: 60px 20px 0;
 }
 
 .navbar-brand-text {
-    color: black;
-}
-
-.page-header {
-    margin-top: 0;
+    color: #fff;
 }
 
 .form-signin {
     max-width: 450px;
     padding: 15px;
-    margin: 0 auto;
-    margin-top: 50px;
+    margin: 50px auto 0;
 }
 
 .form-signin .form-signin-heading, .form-signin {
@@ -35,22 +32,35 @@ body {
     z-index: 2;
 }
 
-.form-signin input[type="text"] {
-    border-radius: 0;
-    border: solid #000 1px;
+.form-surround .form-signin input[type="text"] {
+    border-radius: 5px;
 }
 
-.form-signin input[type="password"] {
-    border-radius: 0;
-    border: solid #000 1px;
+.form-surround .form-signin input[type="password"] {
+    border-radius: 5px;
+}
+
+.form-surround {
+    background: #fff;
+    border-radius: 2px;
+    position: relative;
+    border: 1px solid black;
+    width: 500px;
+    margin: 50px auto 0 auto;
+    padding: 20px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.form-surround h3 {
+    text-align: center;
+    margin: 0;
+    font-family: "Arial Black", Gadget, sans-serif;
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
-    width: 98.5%;
     height: 50px; /* Height of the footer */
-    background: #4285F4;
+    background: #000;
+    width: 100%;
 }
 
 h1.title {
@@ -87,12 +97,9 @@ input::-webkit-input-placeholder {
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.21) !important;
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.21) !important;
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.21) !important;
+    width: 100%;
 }
 
-span.input-group-addon i {
-    color: #009edf;
-    font-size: 17px;
-}
 
 .btn-social {
     position: relative;
