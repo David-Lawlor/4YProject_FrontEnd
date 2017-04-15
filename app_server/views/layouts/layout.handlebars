@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
     <title></title>
     <link href="/public/css/bootstrap.css" rel="stylesheet">
     <link href="/public/css/font-awesome.css" rel="stylesheet">
     <link href="/public/css/style.css" rel="stylesheet">
     <link href="/public/css/keen-dashboards.css" rel="stylesheet">
-
-
-
 </head>
 
 <body ng-app="dashboard">
@@ -32,6 +29,11 @@
                         </a>
                     </li>
                     {{#if user}}
+                        <li>
+                            <a>
+                                <span>{{firstName}} {{lastName}}</span>
+                            </a>
+                        </li>
                         <li><a href="/">Dashboard</a></li>
                         <li><a href="/users/logout">Logout</a></li>
                     {{else}}
@@ -82,6 +84,7 @@
     <script src="/public/js/controller/Room2Temp.js"></script>
     <script src="/public/js/controller/Room2Humidity.js"></script>
     <script src="/public/js/controller/Clock.js"></script>
+    <script src="/public/js/controller/weatherCtrl.js"></script>
 
 </body>
 </html>

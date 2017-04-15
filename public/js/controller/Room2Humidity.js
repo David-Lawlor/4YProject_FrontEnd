@@ -1,14 +1,35 @@
-app.controller("Room2Humid", function ($scope) {
+app.controller("Room2Humid", function ($scope, room2HumidityData, $window) {
 
     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
     $scope.series = ['Series A'];
-    $scope.data = [
-        [100, 59, 80, 0, 56, 55, 100]
-    ];
+    $scope.message = "Loading...";
+    $scope.data = [];
+
+    $scope.includeDesktopTemplate = false;
+    $scope.includeMobileTemplate = false;
+
+    var screenWidth = $window.innerWidth;
+
+    if (screenWidth < 600){
+        $scope.includeMobileTemplate = true;
+    }else {
+        $scope.includeDesktopTemplate = true;
+    }
+
+    room2HumidityData
+    // Simple GET request example:
+        .then(function successCallback(response) {
+            $scope.message = "Room 2 Humidity";
+            $scope.data = [response.data.graphData];
+            $scope.labels = response.data.graphLabels;
+        }, function errorCallback(response) {
+            console.log(response)
+        });
+
     $scope.onClick = function (points, evt) {
         console.log(points, evt);
     };
-    $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+    $scope.datasetOverride = [{yAxisID: 'y-axis-1'}, {yAxisID: 'y-axis-2'}];
     $scope.options = {
         scales: {
             yAxes: [

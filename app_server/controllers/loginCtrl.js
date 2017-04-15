@@ -1,6 +1,5 @@
 var User = require("../model/user");
 
-
 module.exports.GetLogout = function(req, res) {
     req.logout();
     req.flash('success_msg', 'You are now logged out');
@@ -21,14 +20,17 @@ module.exports.GetRegister = function(req, res) {
 };
 
 module.exports.PostRegister = function(req, res) {
-    var name = req.body.name;
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
     var email = req.body.email;
     var password = req.body.password;
     var confirm = req.body.confirm;
     var mac = req.body.mac;
 
-    req.checkBody('name', 'Name cannot be numbers').isAlpha();
-    req.checkBody('name', 'Name is Required').notEmpty();
+    req.checkBody('firstName', 'Name cannot be numbers').isAlpha();
+    req.checkBody('firstName', 'Name is Required').notEmpty();
+    req.checkBody('lastName', 'lastName cannot be numbers').isAlpha();
+    req.checkBody('lastName', 'lastName is Required').notEmpty();
     req.checkBody("email", "Email is Required").notEmpty();
     req.checkBody("email", "Invalid email").isEmail();
     req.checkBody("password", "Password is Required").notEmpty();
@@ -45,20 +47,15 @@ module.exports.PostRegister = function(req, res) {
     }
     else
     {
-        var newUser = new User.User(email, password, name, mac);
-        console.log(newUser);
+        var newUser = new User.User(email, password, firstName, lastName, mac);
 
         User.createUser(newUser, function (err, user)
         {
-            console.log("?");
             if(err){
-                console.log("here in err");
                 req.flash('error_msg', 'User already exists');
                 res.redirect("/users/register");
-                console.log(user);
             }
             else{
-                console.log("not in err");
                 req.flash('success_msg', 'You are now registered');
                 res.redirect("/users/login");
             }

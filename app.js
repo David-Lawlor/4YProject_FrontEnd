@@ -12,8 +12,10 @@ var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var index = require('./app_server/routes/index');
-var users = require('./app_server/routes/users');
+var index = require('./app_server/routes/index_routes');
+var users = require('./app_server/routes/users_routes');
+var sensorRoutesApi = require('./app_api/routes/sensordata_routes');
+var weatherRoutesApi = require('./app_api/routes/weatherData_routes');
 
 // initialise the application
 var app = express();
@@ -81,6 +83,8 @@ app.use(function (req, res, next) {
 app.use('/', index);
 app.use('/users', users);
 app.use('/auth', users);
+app.use('/api/sensordata', sensorRoutesApi);
+app.use('/api/weatherdata', weatherRoutesApi);
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

@@ -1,10 +1,71 @@
-var app = angular.module("dashboard", ['chart.js']);
+var room1LightData = function ($http, sharedProperties) {
+    return $http({
+        method: 'GET',
+        url: '/api/sensordata/room1/Light/' + sharedProperties.getString() + "/day"
+    });
+};
 
-app.controller('mainController', function($scope){
-    $scope.names = [
-        { name: 'A'},
-        { name: 'B'},
-        { name: 'C'}
-    ]
+var room1TemperatureData = function ($http, sharedProperties) {
+    return $http({
+        method: 'GET',
+        url: '/api/sensordata/room1/Temp/' + sharedProperties.getString() + "/day"
+    });
+};
+
+var room2TemperatureData = function ($http, sharedProperties) {
+    return $http({
+        method: 'GET',
+        url: '/api/sensordata/room2/Temp/' + sharedProperties.getString() + "/day"
+    });
+};
+
+var room2HumidityData = function ($http, sharedProperties) {
+    return $http({
+        method: 'GET',
+        url: '/api/sensordata/room2/Humid/' + sharedProperties.getString() + "/day"
+    });
+};
+
+var weatherData = function ($http) {
+    return $http({
+        method: 'GET',
+        url: '/api/weatherdata/weather'
+    });
+};
+
+
+var screenWidth = function ($window) {
+    return ($window.innerWidth < 600);
+};
+
+var app =
+    angular.module("dashboard", ['chart.js'])
+        .service('room1LightData', room1LightData)
+        .service('room1TemperatureData', room1TemperatureData)
+        .service('room2TemperatureData', room2TemperatureData)
+        .service('room2HumidityData', room2HumidityData)
+        .service('screenWidth',  screenWidth)
+        .service('Weather',  weatherData)
+        .service('sharedProperties', function () {
+            var id = '';
+
+            return {
+                getString: function () {
+                    return id;
+                },
+                setString: function(value) {
+                    id = value;
+                }
+            };
+        });
+
+
+app.controller('mainController', function($scope, sharedProperties){
+    $scope.id  = sharedProperties.getString();
+    $scope.setString = function(id) {
+        sharedProperties.setString(id);
+        $scope.id = id;
+    };
 });
+
 

@@ -1,60 +1,136 @@
-<div ng-controller="mainController">
-    <h5 class="page-header">Welcome to your dashboard  {{username}} {{ipaddress}}</h5>
+<div ng-controller="mainController"  ng-init="setString('{{id}}')">
 </div>
 
+<div class="container-fluid">
 
     <div class="row">
-        <div class="col-sm-6 col-md-3" ng-controller="Room1Temp">
+        <div class="col-sm-4" ng-controller="Weather">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    Room 1 Temperature
+                    <strong>{[{message}]}</strong>
                 </div>
                 <div class="chart-stage">
-                    <div id="grid-1-1">
-                        <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
-                                chart-series="series" chart-click="onClick"></canvas>
+                    <div class="col-xs-4">
+                        <img ng-src="{[{weatherIcon}]}" style="height: 200px; width: 200px;" />
+                    </div>
+                    <div class="col-xs-8">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td><strong>Conditions</strong></td>
+                                <td>{[{description}]}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Minimum temperature</strong></td>
+                                <td>{[{minTemperature}]}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Maximum temperature</strong></td>
+                                <td>{[{maxTemperature}]}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Current Temperature</strong></td>
+                                <td>{[{currentTemperature}]}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wind speed</strong></td>
+                                <td>{[{wind}]}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+
             </div>
         </div>
-        <div class="col-sm-6 col-md-3" ng-controller="Room1Light">
+        <div class="col-sm-4">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    Room 1 Light
                 </div>
                 <div class="chart-stage">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
-                            chart-series="series" chart-click="onClick"></canvas>
+                    <img data-src="holder.js/100%x120/white">
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-3" ng-controller="Room2Temp">
+
+        <div class="col-sm-4" ng-controller="relayControl">
             <div class="chart-wrapper">
                 <div class="chart-title">
-                    Room 2 Temperature
                 </div>
                 <div class="chart-stage">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
-                            chart-series="series" chart-click="onClick"></canvas>
+                    <img data-src="holder.js/100%x120/white">
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-3" ng-controller="Room2Humid">
-            <div class="chart-wrapper">
-                <div class="chart-title">
-                    Room 2 Humidity
-                </div>
-                <div class="chart-stage">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels"
-                            chart-series="series" chart-click="onClick"></canvas>
-                </div>
-            </div>
-        </div>
+
+
     </div>
 
+    <div class="row">
+        <div class="col-sm-12 col-md-6" ng-controller="Room1Light">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    <strong>{[{message}]}</strong>
+                </div>
+                <div class="chart-stage" ng-if="includeMobileTemplate">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+                <div class="chart-stage" ng-if="includeDesktopTemplate">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="30" width="100"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6" ng-controller="Room1Temp">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    <strong>{[{message}]}</strong>
+                </div>
+                <div class="chart-stage" ng-if="includeMobileTemplate">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+                <div class="chart-stage" ng-if="includeDesktopTemplate">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="30" width="100"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+            </div>
+        </div>
 
+    </div>
 
+    <div class="row">
+        <div class="col-sm-12 col-md-6" ng-controller="Room2Humid">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    <strong>{[{message}]}</strong>
+                </div>
+                <div class="chart-stage" ng-if="includeMobileTemplate">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+                <div class="chart-stage" ng-if="includeDesktopTemplate">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="30" width="100"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6" ng-controller="Room2Temp">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    <strong>{[{message}]}</strong>
+                </div>
+                <div class="chart-stage" ng-if="includeMobileTemplate">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+                <div class="chart-stage" ng-if="includeDesktopTemplate">
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="30" width="100"
+                            chart-series="series" chart-click="onClick"></canvas>
+                </div>
+            </div>
+        </div>
 
-
-
-
+    </div>
+</div>

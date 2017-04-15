@@ -6,9 +6,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 passport.use(new LocalStrategy(
     function (username, password, done) {
-        var email = username;
-        console.log(username, password);
-        User.getUserByEmail(email, function (err, user) {
+        User.getUserByEmail(username, function (err, user) {
             if (err) throw err;
             if (!user) {
                 return done(null, false, {message: 'Unknown User'});
@@ -34,28 +32,15 @@ passport.use(new GoogleStrategy({
 
     },
     function (token, refreshToken, profile, done) {
-        var profileVerification = { 'email': profile.emails[0].value, 'token': token };
-        // make the code asynchronous
-        // User.findOne won't fire until we have all our data back from Google
         process.nextTick(function () {
-            // try to find the user based on their google id
-            //User.findOne({'google.id': profile.id}, function (err, user) {
-            User.getUserByGoogleID(profileVerification, function (err, user) {
+            User.getUserByEmail(profile.emails[0].value, function (err, user) {
                 if (err)
                     return done(err);
-
                 if (user) {
                     // if a user is found, log them in
                     return done(null, user);
                 } else {
-                    var newUser = new User.GoogleUser(profile.id, token, profile.displayName, profile.emails[0].value);
-                    console.log(newUser);
-
-                    User.createGoogleUser(newUser, function (err, user)
-                    {
-                        if(err) throw err;
-                        console.log(user);
-                    });
+                    return done(null, err, {message: "You have not registered for this service"})
                 }
             });
         });
@@ -70,3 +55,23 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user, done) {
     done(null, user);
 });
+
+module.exports.ensureAuthenticated =  function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    else {
+        res.redirect('/users/login');
+    }
+};
+
+module.exports.ensureAuthenticatedApi =  function ensureAuthenticatedAPI(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    else {
+        res.status(401);
+        res.json('Api call not authorised');
+    }
+};
+

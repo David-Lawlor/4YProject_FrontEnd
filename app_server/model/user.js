@@ -1,6 +1,7 @@
 var AWS = require("aws-sdk");
 var bcrypt = require("bcryptjs");
 var database = require("../config/database");
+var crypto = require("crypto");
 
 AWS.config.update(database.dbconfig);
 
@@ -8,27 +9,19 @@ var docClient = new AWS.DynamoDB.DocumentClient();
 
 
 // user definition
-module.exports.User = function User(email, password, name, mac) {
+module.exports.User = function User(email, password, firstName, lastName, mac) {
     this.email = email;
     this.password = password;
-    this.name = name;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.mac = mac;
-};
-
-
-// Google user object
-module.exports.GoogleUser = function User(id, token, displayName, email) {
-    this.id = id;
-    this.token = token;
-    this.displayName = displayName;
-    this.email = email;
 };
 
 
 // create the user
 module.exports.createUser = function (newUser, callback) {
 
-    var usersearch = {
+    var userSearch = {
         TableName: "Users",
         KeyConditionExpression: "email = :emailIn",
         ExpressionAttributeValues: {
@@ -36,19 +29,23 @@ module.exports.createUser = function (newUser, callback) {
         }
     };
 
-    userExists(usersearch, function (existingUser) {
-        console.log("gjgyu " + existingUser);
+    userExists(userSearch, function (existingUser) {
         console.log(existingUser);
 
         console.log("existing: " + existingUser);
         if (!existingUser) {
+            var shasum = crypto.createHash('sha1');
+            var id = shasum.update(newUser.mac).digest("hex");
+            console.log(id);
             var params = {
                 TableName: "Users",
                 Item: {
                     "email": newUser.email,
                     "password": newUser.password,
-                    "name": newUser.name,
-                    "mac": newUser.mac
+                    "firstName": newUser.firstName,
+                    "lastName": newUser.lastName,
+                    "mac": newUser.mac,
+                    "id": id
                 }
             };
 
@@ -66,6 +63,7 @@ module.exports.createUser = function (newUser, callback) {
                     });
                 });
             });
+            callback(null);
         }
         else {
             callback(new Error("User already exists"));
@@ -73,30 +71,6 @@ module.exports.createUser = function (newUser, callback) {
     });
 
 
-};
-
-
-// create a google user
-module.exports.createGoogleUser = function (newUser, callback) {
-    //console.log(newUser);
-    var params = {
-        TableName: "Users",
-        Item: {
-            "id": newUser.id,
-            "token": newUser.token,
-            "username": newUser.displayName,
-            "email": newUser.email
-        }
-    };
-
-    docClient.put(params, function (err, data) {
-        if (err) {
-            console.error("Unable to add item. Error JSON:", JSON.stringify(err,
-                null, 2));
-        } else {
-            console.log("Added item:", JSON.stringify(data, null, 2));
-        }
-    });
 };
 
 module.exports.getUserByEmail = function (emailIn, callback) {
@@ -108,25 +82,7 @@ module.exports.getUserByEmail = function (emailIn, callback) {
         }
     };
 
-    docClient.query(params, function (err, data) {
-        if (err) {
-            console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
-        } else {
-            console.log("Query succeeded.");
-        }
-        callback(null, data.Items[0]);
-    });
 
-};
-
-module.exports.getUserByGoogleID = function (googleProfileIdIn, callback) {
-    var params = {
-        TableName: "Users",
-        KeyConditionExpression: "email = :emailIn",
-        ExpressionAttributeValues: {
-            ":emailIn": googleProfileIdIn.email
-        }
-    };
     docClient.query(params, function (err, data) {
         if (err) {
             console.error("Unable to query. Error:", JSON.stringify(err, null, 2));

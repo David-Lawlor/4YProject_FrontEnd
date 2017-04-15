@@ -1,15 +1,49 @@
-app.controller("Room1Light", function ($scope) {
+app.controller("Room1Light", function ($scope, $timeout, room1LightData, $window) {
 
     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
     $scope.series = ['Series A', 'Series B'];
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40],
-        [28, 0, 40, 19, 100, 27, 90]
-    ];
+    $scope.message = "Loading...";
+    $scope.data = [];
+
+    $scope.includeDesktopTemplate = false;
+    $scope.includeMobileTemplate = false;
+
+    var screenWidth = $window.innerWidth;
+
+    if (screenWidth < 600){
+        $scope.includeMobileTemplate = true;
+    }else {
+        $scope.includeDesktopTemplate = true;
+    }
+
+
+    room1LightData
+    // Simple GET request example:
+        .then(function successCallback(response) {
+            $scope.message = "Room 1 Light";
+            $scope.data = [response.data.graphData];
+            $scope.labels = response.data.graphLabels;
+        }, function errorCallback(response) {
+            console.log(response)
+        });
+
+    // $timeout(function () {
+    //     room1LightData
+    //     // Simple GET request example:
+    //         .then(function successCallback(response) {
+    //             $scope.message = "Room 1 Light";
+    //             $scope.data = response.data;
+    //         }, function errorCallback(response) {
+    //             console.log(response)
+    //         });
+    // }, 10000);
+
+
     $scope.onClick = function (points, evt) {
         console.log(points, evt);
     };
-    $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+
+    $scope.datasetOverride = [{yAxisID: 'y-axis-1'}];
     $scope.options = {
         scales: {
             yAxes: [
@@ -18,12 +52,6 @@ app.controller("Room1Light", function ($scope) {
                     type: 'linear',
                     display: true,
                     position: 'left'
-                },
-                {
-                    id: 'y-axis-2',
-                    type: 'linear',
-                    display: true,
-                    position: 'right'
                 }
             ]
         }

@@ -1,11 +1,32 @@
-app.controller("Room1Temp", function ($scope) {
+app.controller("Room1Temp", function ($scope, room1TemperatureData, $window) {
 
     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
     $scope.series = ['Series A', 'Series B'];
-    $scope.data = [
-        [65, 59, 80, 81, 100, 55, 40],
-        [28, 0, 40, 19, 86, 27, 90]
-    ];
+    $scope.message = "Loading...";
+    $scope.data = [];
+
+    $scope.includeDesktopTemplate = false;
+    $scope.includeMobileTemplate = false;
+
+    var screenWidth = $window.innerWidth;
+
+    if (screenWidth < 600){
+        $scope.includeMobileTemplate = true;
+    }else {
+        $scope.includeDesktopTemplate = true;
+    }
+
+    room1TemperatureData
+    // Simple GET request example:
+        .then(function successCallback(response) {
+            console.log(response);
+            $scope.message = "Room 1 Temperature";
+            $scope.data = [response.data.graphData];
+            $scope.labels = response.data.graphLabels;
+        }, function errorCallback(response) {
+            console.log(response)
+        });
+
     $scope.onClick = function (points, evt) {
         console.log(points, evt);
     };
