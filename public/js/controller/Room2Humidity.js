@@ -1,9 +1,10 @@
 app.controller("Room2Humid", function ($scope, room2HumidityData, $window) {
 
-    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+    $scope.labels = [];
     $scope.series = ['Series A'];
     $scope.message = "Loading...";
     $scope.data = [];
+    $scope.response = {};
 
     $scope.includeDesktopTemplate = false;
     $scope.includeMobileTemplate = false;
@@ -19,16 +20,24 @@ app.controller("Room2Humid", function ($scope, room2HumidityData, $window) {
     room2HumidityData
     // Simple GET request example:
         .then(function successCallback(response) {
+            $scope.response = response;
             $scope.message = "Room 2 Humidity";
-            $scope.data = [response.data.graphData];
-            $scope.labels = response.data.graphLabels;
+            $scope.data = [response.data.Day.graphData];
+            $scope.labels = response.data.Day.graphLabels;
         }, function errorCallback(response) {
             console.log(response)
         });
 
-    $scope.onClick = function (points, evt) {
-        console.log(points, evt);
+    $scope.dayData = function(){
+        $scope.data = [$scope.response.data.Day.graphData];
+        $scope.labels = $scope.response.data.Day.graphLabels;
     };
+
+    $scope.monthData = function(){
+        $scope.data = [$scope.response.data.Month.graphData];
+        $scope.labels = $scope.response.data.Month.graphLabels;
+    };
+
     $scope.datasetOverride = [{yAxisID: 'y-axis-1'}, {yAxisID: 'y-axis-2'}];
     $scope.options = {
         scales: {

@@ -1,9 +1,10 @@
 app.controller("Room1Light", function ($scope, $timeout, room1LightData, $window) {
 
-    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-    $scope.series = ['Series A', 'Series B'];
+    $scope.labels = [];
+    $scope.series = ['Series A'];
     $scope.message = "Loading...";
     $scope.data = [];
+    $scope.response = {};
 
     $scope.includeDesktopTemplate = false;
     $scope.includeMobileTemplate = false;
@@ -20,27 +21,23 @@ app.controller("Room1Light", function ($scope, $timeout, room1LightData, $window
     room1LightData
     // Simple GET request example:
         .then(function successCallback(response) {
+            $scope.response = response;
             $scope.message = "Room 1 Light";
-            $scope.data = [response.data.graphData];
-            $scope.labels = response.data.graphLabels;
+            $scope.data = [response.data.Day.graphData];
+            $scope.labels = response.data.Day.graphLabels;
         }, function errorCallback(response) {
             console.log(response)
         });
 
-    // $timeout(function () {
-    //     room1LightData
-    //     // Simple GET request example:
-    //         .then(function successCallback(response) {
-    //             $scope.message = "Room 1 Light";
-    //             $scope.data = response.data;
-    //         }, function errorCallback(response) {
-    //             console.log(response)
-    //         });
-    // }, 10000);
 
+    $scope.dayData = function(){
+        $scope.data = [$scope.response.data.Day.graphData];
+        $scope.labels = $scope.response.data.Day.graphLabels;
+    };
 
-    $scope.onClick = function (points, evt) {
-        console.log(points, evt);
+    $scope.monthData = function(){
+        $scope.data = [$scope.response.data.Month.graphData];
+        $scope.labels = $scope.response.data.Month.graphLabels;
     };
 
     $scope.datasetOverride = [{yAxisID: 'y-axis-1'}];

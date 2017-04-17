@@ -1,28 +1,35 @@
+var relayControl = function ($http, sharedProperties) {
+    return $http({
+        method: 'GET',
+        url: '/api/shadow/' + sharedProperties.getString()
+    });
+};
+
 var room1LightData = function ($http, sharedProperties) {
     return $http({
         method: 'GET',
-        url: '/api/sensordata/room1/Light/' + sharedProperties.getString() + "/day"
+        url: '/api/sensordata/room1/Light/' + sharedProperties.getString()
     });
 };
 
 var room1TemperatureData = function ($http, sharedProperties) {
     return $http({
         method: 'GET',
-        url: '/api/sensordata/room1/Temp/' + sharedProperties.getString() + "/day"
+        url: '/api/sensordata/room1/Temp/' + sharedProperties.getString()
     });
 };
 
 var room2TemperatureData = function ($http, sharedProperties) {
     return $http({
         method: 'GET',
-        url: '/api/sensordata/room2/Temp/' + sharedProperties.getString() + "/day"
+        url: '/api/sensordata/room2/Temp/' + sharedProperties.getString()
     });
 };
 
 var room2HumidityData = function ($http, sharedProperties) {
     return $http({
         method: 'GET',
-        url: '/api/sensordata/room2/Humid/' + sharedProperties.getString() + "/day"
+        url: '/api/sensordata/room2/Humid/' + sharedProperties.getString()
     });
 };
 

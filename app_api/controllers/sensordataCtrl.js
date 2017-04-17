@@ -11,24 +11,13 @@ module.exports.sensordata = function(req, res) {
     var queryTable;
     var tableExtension;
     var sensorAttribute;
-    var time;
-    var sensorlocation;
+    var sensorLocation;
 
     if(req.params.location.toUpperCase() === "room1".toUpperCase()){
-        sensorlocation = "Room 1";
+        sensorLocation = "Room 1";
     }
     else if(req.params.location.toUpperCase() === "room2".toUpperCase()){
-        sensorlocation = "Room 2";
-    }
-
-    if(req.params.timePeriod.toUpperCase() === "day".toUpperCase()){
-        time = 1;
-    }
-    else if(req.params.timePeriod.toUpperCase() === "fortnight".toUpperCase()){
-        time = 14;
-    }
-    else if(req.params.timePeriod.toUpperCase() === "month".toUpperCase()){
-        time = 30;
+        sensorLocation = "Room 2";
     }
 
     if(req.params.sensor.toUpperCase() === "temp".toUpperCase()){
@@ -50,17 +39,8 @@ module.exports.sensordata = function(req, res) {
         sendResponse(res, 404, [])
     }
 
-    /*
-     Timestamp format required for dynamodb 20170402T000424Z
-     Timestamp format output of moment.js 2017-03-14T21:55:50.903Z
-     */
-    var queryDate = moment().locale('en-ie').subtract(time, 'days').toISOString();
-
-    //remove the dashes and colons from the string
-    queryDate = queryDate.replace(/-/g, "").replace(/:/g, "");
-
-    // remove the milliseconds from the timestamp
-    queryDate = queryDate.substr(0, (queryDate.length-5)) + "Z";
+    var queryDateMonth = getQueryDate(30);
+    var queryDateDay = getQueryDate(1);
 
     var data = [];
 
@@ -69,51 +49,36 @@ module.exports.sensordata = function(req, res) {
 
     var docClient = new AWS.DynamoDB.DocumentClient();
 
-    var query = {
-        TableName: queryTable,
-        ProjectionExpression:"#d, #t, #attr , #l",
-        KeyConditionExpression: "#pk = :Partition_Key and #ts > :queryDate",
-        ExpressionAttributeNames:{
-            "#pk": "Partition_Key",
-            "#ts": "Timestamp",
-            "#d": "Date",
-            "#t": "Time",
-            "#attr": sensorAttribute,
-            "#l": "Location"
-        },
-        ExpressionAttributeValues: {
-            ":Partition_Key": tempid + tableExtension,
-            ":queryDate": queryDate
-        }
-    };
+    var monthQuery = createQuery(queryDateMonth, queryTable, tableExtension, sensorAttribute, tempid);
+    var dayQuery = createQuery(queryDateDay, queryTable, tableExtension, sensorAttribute, tempid);
 
-    docClient.query(query, function(err, data) {
+
+
+    docClient.query(dayQuery, function(err, dayData) {
         if (err) {
             console.log("Unable to query. Error:", JSON.stringify(err, null, 2));
         } else {
-            var filteredData = [];
+            var filteredData = filterByLocation(dayData, sensorLocation);
+            console.log("Query succeeded.");
+            var currentTemperature = filteredData[filteredData.length -1];
+            var processedDayData = processDataDay(filteredData, sensorAttribute);
 
-            data.Items.forEach(function(item){
-                console.log(item);
-                if(item.Location == sensorlocation){
-                    filteredData.push(item);
+            docClient.query(monthQuery, function(err, monthData) {
+                if (err) {
+                    console.log("Unable to query. Error:", JSON.stringify(err, null, 2));
+                } else {
+                    var filteredData = filterByLocation(monthData, sensorLocation);
+                    //console.log(filteredData);
+                    console.log("Query succeeded.");
+                    var processMonthData = processDataMonth(filteredData, sensorAttribute);
+                    var returnData = {
+                        Day: processedDayData,
+                        Month: processMonthData,
+                        CurrentReading: currentTemperature
+                    };
+                    sendResponse(res, 200, returnData);
                 }
             });
-
-            console.log(filteredData);
-
-            var processedData;
-            console.log("Query succeeded.");
-            if (time == 1){
-                processedData = processDataDay(filteredData, sensorAttribute)
-            }
-            else if(time ==14){
-                processedData = processDataFortnight(filteredData, time)
-            }
-            else if(time ==  30){
-                processedData = processDataMonth(filteredData, time)
-            }
-            sendResponse(res, 200, processedData);
         }
     });
 
@@ -121,6 +86,8 @@ module.exports.sensordata = function(req, res) {
 };
 
 var processDataDay =  function(data, sensorAttribute){
+    console.log("processing data by day");
+
     // get the length of the array for the loop
     var arrayLength = data.length;
 
@@ -146,7 +113,7 @@ var processDataDay =  function(data, sensorAttribute){
             hour = parseHour(data[i].Time);
         }
         else {
-            graphData.push(hourTotal / numberOfEntriesForHour);
+            graphData.push(Math.round((hourTotal / numberOfEntriesForHour)*100)/100);
             hourTotal = parseFloat(data[i][sensorAttribute]);
             numberOfEntriesForHour = 1;
             hour = parseHour(data[i].Time);
@@ -160,7 +127,7 @@ var processDataDay =  function(data, sensorAttribute){
 
         // at the end of the array the hour will not change again so get average now
         if(i == arrayLength-1){
-            graphData.push(hourTotal / numberOfEntriesForHour);
+            graphData.push(Math.round((hourTotal / numberOfEntriesForHour)*100)/100);
         }
     }
 
@@ -170,10 +137,50 @@ var processDataDay =  function(data, sensorAttribute){
     };
 };
 
-var processDataFortnight =  function(data, time){
-};
+var processDataMonth =  function(data, sensorAttribute){
+    console.log("processing data by day");
 
-var processDataMonth =  function(data, time){
+    // get the length of the array for the loop
+    var arrayLength = data.length;
+
+// create the arrays for the graph data and labels
+    var graphData = [];
+    var graphLabels = [];
+
+    // parse the hour from the first item in the array of objects
+    var day = parseDay(data[0].Date);
+
+    // create the graph label
+    graphLabels.push(data[0].Date);
+
+    // initialise the totals
+    var dayTotal = 0;
+    var numberOfEntriesForDay = 0;
+
+    // loop through each object in the array
+    for(var i = 0; i < arrayLength; i++){
+        if (day === parseDay(data[i].Date)) {
+            dayTotal += parseFloat(data[i][sensorAttribute]);
+            numberOfEntriesForDay++;
+            day = parseDay(data[i].Date);
+        }
+        else {
+            graphData.push(Math.round((dayTotal / numberOfEntriesForDay)*100)/100);
+            dayTotal = parseFloat(data[i][sensorAttribute]);
+            numberOfEntriesForDay = 1;
+            day = parseDay(data[i].Date);
+            graphLabels.push(data[i].Date);
+        }
+        // at the end of the array the hour will not change again so get average now
+        if(i == arrayLength-1){
+            graphData.push(Math.round((dayTotal / numberOfEntriesForDay)*100)/100);
+        }
+    }
+
+    return  {
+        "graphData": graphData,
+        "graphLabels": graphLabels
+    };
 };
 
 
@@ -182,6 +189,68 @@ var sendResponse = function (res, status, content) {
     res.json(content);
 };
 
+var getQueryDate = function(days){
+    /*
+     Timestamp format required for dynamodb 20170402T000424Z
+     Timestamp format output of moment.js 2017-03-14T21:55:50.903Z
+     */
+    var queryDate = moment().locale('en-ie').subtract(days, 'days').toISOString();
+
+    //remove the dashes and colons from the string
+    queryDate = queryDate.replace(/-/g, "").replace(/:/g, "");
+
+    // remove the milliseconds from the timestamp
+    queryDate = queryDate.substr(0, (queryDate.length-5)) + "Z";
+
+    return queryDate;
+};
+
+var filterByLocation = function(data, sensorLocation){
+    var filteredData = [];
+    data.Items.forEach(function(item){
+        //console.log(item);
+        if(item.Location == sensorLocation){
+            filteredData.push(item);
+        }
+    });
+    return filteredData;
+};
+
+var createQuery = function (queryDate, queryTable, tableExtension, sensorAttribute, tempid) {
+    return {
+        TableName: queryTable,
+        ProjectionExpression: "#d, #t, #attr , #l",
+        KeyConditionExpression: "#pk = :Partition_Key and #ts > :queryDate",
+        ExpressionAttributeNames: {
+            "#pk": "Partition_Key",
+            "#ts": "Timestamp",
+            "#d": "Date",
+            "#t": "Time",
+            "#attr": sensorAttribute,
+            "#l": "Location"
+        },
+        ExpressionAttributeValues: {
+            ":Partition_Key": tempid + tableExtension,
+            ":queryDate": queryDate
+        }
+    };
+};
+
+
 var parseHour = function(time){
     return parseInt(time.substring(0, 2));
 };
+
+var parseDay = function(date){
+    return parseInt(date.substring(0, 2));
+};
+
+var parseMonth = function(date){
+    return parseInt(date.substring(3, 5));
+};
+
+var parseYear = function(date){
+    return parseInt(date.substring(6, 10));
+};
+
+

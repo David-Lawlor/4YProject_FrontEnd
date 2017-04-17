@@ -4,18 +4,18 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-sm-4" ng-controller="Weather">
+        <div class="col-sm-12 col-md-4" ng-controller="Weather">
             <div class="chart-wrapper">
                 <div class="chart-title">
                     <strong>{[{message}]}</strong>
                 </div>
-                <div class="chart-stage">
+                <div class="chart-stage" style="padding: 0; border: 0; margin: 0">
                     <div class="col-xs-4">
-                        <img ng-src="{[{weatherIcon}]}" style="height: 200px; width: 200px;" />
+                        <img ng-src="{[{weatherIcon}]}" style="height: 180px; width: 200px;" />
                     </div>
                     <div class="col-xs-8">
-                        <table class="table table-striped">
-                            <tbody>
+                        <table class="table .table-sm table-striped" >
+                            <tbody style="padding: 0;">
                             <tr>
                                 <td><strong>Conditions</strong></td>
                                 <td>{[{description}]}</td>
@@ -32,7 +32,7 @@
                                 <td><strong>Current Temperature</strong></td>
                                 <td>{[{currentTemperature}]}</td>
                             </tr>
-                            <tr>
+                            <tr style="padding: 0;">
                                 <td><strong>Wind speed</strong></td>
                                 <td>{[{wind}]}</td>
                             </tr>
@@ -43,7 +43,7 @@
 
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-12 col-md-4">
             <div class="chart-wrapper">
                 <div class="chart-title">
                 </div>
@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4" ng-controller="relayControl">
+        <div class="col-sm-12 col-md-4">
             <div class="chart-wrapper">
                 <div class="chart-title">
                 </div>
@@ -68,7 +68,7 @@
 
     <div class="row">
         <div class="col-sm-12 col-md-6" ng-controller="Room1Light">
-            <div class="chart-wrapper">
+            <div class="chart-wrapper" >
                 <div class="chart-title">
                     <strong>{[{message}]}</strong>
                 </div>
@@ -77,8 +77,14 @@
                             chart-series="series" chart-click="onClick"></canvas>
                 </div>
                 <div class="chart-stage" ng-if="includeDesktopTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="30" width="100"
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
                             chart-series="series" chart-click="onClick"></canvas>
+                </div>
+                <div class="chart-title text-center">
+                    <div class="btn-group">
+                        <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()" class="btn btn-default active">Day</button>
+                        <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()" class="btn btn-default">Month</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,8 +98,14 @@
                             chart-series="series" chart-click="onClick"></canvas>
                 </div>
                 <div class="chart-stage" ng-if="includeDesktopTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="30" width="100"
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
                             chart-series="series" chart-click="onClick"></canvas>
+                </div>
+                <div class="chart-title text-center">
+                    <div class="btn-group">
+                        <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()" class="btn btn-default active">Day</button>
+                        <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()" class="btn btn-default">Month</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,8 +123,14 @@
                             chart-series="series" chart-click="onClick"></canvas>
                 </div>
                 <div class="chart-stage" ng-if="includeDesktopTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="30" width="100"
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
                             chart-series="series" chart-click="onClick"></canvas>
+                </div>
+                <div class="chart-title text-center">
+                    <div class="btn-group">
+                        <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()" class="btn btn-default active">Day</button>
+                        <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()" class="btn btn-default">Month</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,8 +144,14 @@
                             chart-series="series" chart-click="onClick"></canvas>
                 </div>
                 <div class="chart-stage" ng-if="includeDesktopTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="30" width="100"
+                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
                             chart-series="series" chart-click="onClick"></canvas>
+                </div>
+                <div class="chart-title text-center">
+                    <div class="btn-group">
+                        <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()" class="btn btn-default active">Day</button>
+                        <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()" class="btn btn-default">Month</button>
+                    </div>
                 </div>
             </div>
         </div>
