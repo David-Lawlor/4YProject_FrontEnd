@@ -1,8 +1,7 @@
-app.controller("RelayControl", function ($scope, relayStates, $http, sharedProperties, changeRelayState) {
-
+app.controller("RelayControl", function ($scope, $http, sharedProperties, dataFactory) {
     $scope.init = function () {
         $scope.relays = [];
-        relayStates
+        dataFactory.getRelayStates()
         // Simple GET request example:
             .then(function successCallback(response) {
                 console.log(response);
@@ -19,11 +18,9 @@ app.controller("RelayControl", function ($scope, relayStates, $http, sharedPrope
 
     $scope.changeStatusBtn1 = function () {
         var stateToChange = $scope.getRelayStateName(0);
-        $http({
-            method: 'POST',
-            data: { relay: 1, state: stateToChange},
-            url: '/api/shadow/' + sharedProperties.getString() + '/updateShadow'
-        }).then(function successCallback(response) {
+        var payload = { relay: 1, state: stateToChange};
+        dataFactory.changeRelayState(payload)
+        .then(function successCallback(response) {
             $scope.relays[0] = !$scope.relays[0];
         }, function errorCallback(response) {
             alert("error changing relay state. Try again later");
@@ -31,15 +28,36 @@ app.controller("RelayControl", function ($scope, relayStates, $http, sharedPrope
     };
 
     $scope.changeStatusBtn2 = function () {
-        $scope.relays[1] = !$scope.relays[1];
+        var stateToChange = $scope.getRelayStateName(1);
+        var payload = { relay: 2, state: stateToChange};
+        dataFactory.changeRelayState(payload)
+            .then(function successCallback(response) {
+                $scope.relays[1] = !$scope.relays[1];
+            }, function errorCallback(response) {
+                alert("error changing relay state. Try again later");
+            });
     };
 
     $scope.changeStatusBtn3 = function () {
-        $scope.relays[2] = !$scope.relays[2];
+        var stateToChange = $scope.getRelayStateName(2);
+        var payload = { relay: 3, state: stateToChange};
+        dataFactory.changeRelayState(payload)
+            .then(function successCallback(response) {
+                $scope.relays[2] = !$scope.relays[2];
+            }, function errorCallback(response) {
+                alert("error changing relay state. Try again later");
+            });
     };
 
     $scope.changeStatusBtn4 = function () {
-        $scope.relays[3] = !$scope.relays[3];
+        var stateToChange = $scope.getRelayStateName(3);
+        var payload = { relay: 4, state: stateToChange};
+        dataFactory.changeRelayState(payload)
+            .then(function successCallback(response) {
+                $scope.relays[3] = !$scope.relays[3];
+            }, function errorCallback(response) {
+                alert("error changing relay state. Try again later");
+            });
     };
 
     $scope.getRelayStateName = function(index){

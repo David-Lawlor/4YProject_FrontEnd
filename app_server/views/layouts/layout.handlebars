@@ -7,6 +7,7 @@
     <link href="/public/css/font-awesome.css" rel="stylesheet">
     <link href="/public/css/style.css" rel="stylesheet">
     <link href="/public/css/keen-dashboards.css" rel="stylesheet">
+
 </head>
 
 <body ng-app="dashboard">
@@ -78,6 +79,9 @@
     <script src="/public/js/bootstrap.js"></script>
     <script src="/node_modules/chart.js/dist/Chart.min.js"></script>
     <script src="/node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script>
+        angular.module("dashboard").value("userId", '{{id}}');
+    </script>
 
     <script src="/public/js/controller/Room1Temp.js"></script>
     <script src="/public/js/controller/Room1Light.js"></script>

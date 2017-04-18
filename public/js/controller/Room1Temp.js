@@ -1,4 +1,4 @@
-app.controller("Room1Temp", function ($scope, room1TemperatureData, $window) {
+app.controller("Room1Temp", function ($scope, dataFactory, $window) {
 
     $scope.labels = [];
     $scope.series = ['Series A'];
@@ -17,7 +17,7 @@ app.controller("Room1Temp", function ($scope, room1TemperatureData, $window) {
         $scope.includeDesktopTemplate = true;
     }
 
-    room1TemperatureData
+    dataFactory.room1TemperatureData()
     // Simple GET request example:
         .then(function successCallback(response) {
             $scope.response = response;

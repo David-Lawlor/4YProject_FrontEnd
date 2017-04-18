@@ -1,4 +1,4 @@
-app.controller("Room2Humid", function ($scope, room2HumidityData, $window) {
+app.controller("Room2Humid", function ($scope, dataFactory, $window) {
 
     $scope.labels = [];
     $scope.series = ['Series A'];
@@ -17,7 +17,7 @@ app.controller("Room2Humid", function ($scope, room2HumidityData, $window) {
         $scope.includeDesktopTemplate = true;
     }
 
-    room2HumidityData
+    dataFactory.room2HumidityData()
     // Simple GET request example:
         .then(function successCallback(response) {
             $scope.response = response;

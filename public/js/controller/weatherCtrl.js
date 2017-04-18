@@ -1,6 +1,6 @@
-app.controller("Weather", function ($scope, $timeout, Weather) {
+app.controller("Weather", function ($scope, $timeout, dataFactory) {
 
-    Weather
+    dataFactory.weatherData()
     // Simple GET request example:
         .then(function successCallback(response) {
             $scope.message = "Weather";
