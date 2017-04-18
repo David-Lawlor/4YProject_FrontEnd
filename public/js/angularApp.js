@@ -1,8 +1,20 @@
-var relayControl = function ($http, sharedProperties) {
+var getRelayStates = function ($http, sharedProperties) {
     return $http({
         method: 'GET',
-        url: '/api/shadow/' + sharedProperties.getString()
+        url: '/api/shadow/' + sharedProperties.getString() + '/getShadow'
     });
+};
+
+var changeRelayState = function ($http, sharedProperties) {
+    return {
+        update: function(params) {
+            $http({
+                method: 'POST',
+                data: params,
+                url: '/api/shadow/' + sharedProperties.getString() + '/updateShadow'
+            });
+        }
+    }
 };
 
 var room1LightData = function ($http, sharedProperties) {
@@ -53,6 +65,8 @@ var app =
         .service('room2HumidityData', room2HumidityData)
         .service('screenWidth',  screenWidth)
         .service('Weather',  weatherData)
+        .service('relayStates',  getRelayStates)
+        .service('changeRelayState',  changeRelayState)
         .service('sharedProperties', function () {
             var id = '';
 

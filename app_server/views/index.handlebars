@@ -1,7 +1,6 @@
-<div ng-controller="mainController"  ng-init="setString('{{id}}')">
+<div ng-controller="mainController" ng-init="setString('{{id}}')">
 </div>
 
-<div class="container-fluid">
 
     <div class="row">
         <div class="col-sm-12 col-md-4" ng-controller="Weather">
@@ -11,10 +10,10 @@
                 </div>
                 <div class="chart-stage" style="padding: 0; border: 0; margin: 0">
                     <div class="col-xs-4">
-                        <img ng-src="{[{weatherIcon}]}" style="height: 180px; width: 200px;" />
+                        <img ng-src="{[{weatherIcon}]}" style="height: 180px; width: 200px;"/>
                     </div>
                     <div class="col-xs-8">
-                        <table class="table .table-sm table-striped" >
+                        <table class="table .table-sm table-striped">
                             <tbody style="padding: 0;">
                             <tr>
                                 <td><strong>Conditions</strong></td>
@@ -43,6 +42,38 @@
 
             </div>
         </div>
+        <div class="col-sm-12 col-md-4 relayControl" ng-controller="RelayControl" ng-init="init()">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                </div>
+                <div class="chart-stage">
+                    <div>
+                        <i class="fa fa-toggle-on rcactive" ng-if="relays[0] == true" ng-click="changeStatusBtn1();"></i>
+                        <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[0] == false"
+                           ng-click="changeStatusBtn1();"></i>
+                    </div>
+                    <div>
+                        <i class="fa fa-toggle-on rcactive" ng-if="relays[1] == true" ng-click="changeStatusBtn2();"></i>
+                        <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[1] == false"
+                           ng-click="changeStatusBtn2();"></i>
+                    </div>
+                    <div>
+                        <i class="fa fa-toggle-on rcactive" ng-if="relays[2] == true" ng-click="changeStatusBtn3();"></i>
+                        <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[2] == false"
+                           ng-click="changeStatusBtn3();"></i>
+                    </div>
+                    <div>
+                        <i class="fa fa-toggle-on rcactive" ng-if="relays[3] == true" ng-click="changeStatusBtn4();"></i>
+                        <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[3] == false"
+                           ng-click="changeStatusBtn4();"></i>
+                    </div>
+                    <pre>{[{ relays[0] }]}</pre>
+                    <pre>{[{ relays[1] }]}</pre>
+                    <pre>{[{ relays[2] }]}</pre>
+                    <pre>{[{ relays[3] }]}</pre>
+                </div>
+            </div>
+        </div>
         <div class="col-sm-12 col-md-4">
             <div class="chart-wrapper">
                 <div class="chart-title">
@@ -52,109 +83,113 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-12 col-md-4">
-            <div class="chart-wrapper">
-                <div class="chart-title">
-                </div>
-                <div class="chart-stage">
-                    <img data-src="holder.js/100%x120/white">
-                </div>
-            </div>
-        </div>
-
-
     </div>
 
-    <div class="row">
-        <div class="col-sm-12 col-md-6" ng-controller="Room1Light">
-            <div class="chart-wrapper" >
-                <div class="chart-title">
-                    <strong>{[{message}]}</strong>
-                </div>
-                <div class="chart-stage" ng-if="includeMobileTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
-                            chart-series="series" chart-click="onClick"></canvas>
-                </div>
-                <div class="chart-stage" ng-if="includeDesktopTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
-                            chart-series="series" chart-click="onClick"></canvas>
-                </div>
-                <div class="chart-title text-center">
-                    <div class="btn-group">
-                        <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()" class="btn btn-default active">Day</button>
-                        <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()" class="btn btn-default">Month</button>
-                    </div>
+<div class="row">
+    <div class="col-sm-12 col-md-6" ng-controller="Room1Light">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                <strong>{[{message}]}</strong>
+            </div>
+            <div class="chart-stage" ng-if="includeMobileTemplate">
+                <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
+                        chart-series="series" chart-click="onClick"></canvas>
+            </div>
+            <div class="chart-stage" ng-if="includeDesktopTemplate">
+                <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
+                        chart-series="series" chart-click="onClick"></canvas>
+            </div>
+            <div class="chart-title text-center">
+                <div class="btn-group">
+                    <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()"
+                            class="btn btn-default active">Day
+                    </button>
+                    <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()"
+                            class="btn btn-default">Month
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-6" ng-controller="Room1Temp">
-            <div class="chart-wrapper">
-                <div class="chart-title">
-                    <strong>{[{message}]}</strong>
-                </div>
-                <div class="chart-stage" ng-if="includeMobileTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
-                            chart-series="series" chart-click="onClick"></canvas>
-                </div>
-                <div class="chart-stage" ng-if="includeDesktopTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
-                            chart-series="series" chart-click="onClick"></canvas>
-                </div>
-                <div class="chart-title text-center">
-                    <div class="btn-group">
-                        <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()" class="btn btn-default active">Day</button>
-                        <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()" class="btn btn-default">Month</button>
-                    </div>
+    </div>
+    <div class="col-sm-12 col-md-6" ng-controller="Room1Temp">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                <strong>{[{message}]}</strong>
+            </div>
+            <div class="chart-stage" ng-if="includeMobileTemplate">
+                <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
+                        chart-series="series" chart-click="onClick"></canvas>
+            </div>
+            <div class="chart-stage" ng-if="includeDesktopTemplate">
+                <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
+                        chart-series="series" chart-click="onClick"></canvas>
+            </div>
+            <div class="chart-title text-center">
+                <div class="btn-group">
+                    <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()"
+                            class="btn btn-default active">Day
+                    </button>
+                    <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()"
+                            class="btn btn-default">Month
+                    </button>
                 </div>
             </div>
         </div>
-
     </div>
 
-    <div class="row">
-        <div class="col-sm-12 col-md-6" ng-controller="Room2Humid">
-            <div class="chart-wrapper">
-                <div class="chart-title">
-                    <strong>{[{message}]}</strong>
-                </div>
-                <div class="chart-stage" ng-if="includeMobileTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
-                            chart-series="series" chart-click="onClick"></canvas>
-                </div>
-                <div class="chart-stage" ng-if="includeDesktopTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
-                            chart-series="series" chart-click="onClick"></canvas>
-                </div>
-                <div class="chart-title text-center">
-                    <div class="btn-group">
-                        <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()" class="btn btn-default active">Day</button>
-                        <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()" class="btn btn-default">Month</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6" ng-controller="Room2Temp">
-            <div class="chart-wrapper">
-                <div class="chart-title">
-                    <strong>{[{message}]}</strong>
-                </div>
-                <div class="chart-stage" ng-if="includeMobileTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
-                            chart-series="series" chart-click="onClick"></canvas>
-                </div>
-                <div class="chart-stage" ng-if="includeDesktopTemplate">
-                    <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
-                            chart-series="series" chart-click="onClick"></canvas>
-                </div>
-                <div class="chart-title text-center">
-                    <div class="btn-group">
-                        <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()" class="btn btn-default active">Day</button>
-                        <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()" class="btn btn-default">Month</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+</div>
 
+<div class="row">
+    <div class="col-sm-12 col-md-6" ng-controller="Room2Humid">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                <strong>{[{message}]}</strong>
+            </div>
+            <div class="chart-stage" ng-if="includeMobileTemplate">
+                <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
+                        chart-series="series" chart-click="onClick"></canvas>
+            </div>
+            <div class="chart-stage" ng-if="includeDesktopTemplate">
+                <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
+                        chart-series="series" chart-click="onClick"></canvas>
+            </div>
+            <div class="chart-title text-center">
+                <div class="btn-group">
+                    <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()"
+                            class="btn btn-default active">Day
+                    </button>
+                    <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()"
+                            class="btn btn-default">Month
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="col-sm-12 col-md-6" ng-controller="Room2Temp">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                <strong>{[{message}]}</strong>
+            </div>
+            <div class="chart-stage" ng-if="includeMobileTemplate">
+                <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="80" width="100"
+                        chart-series="series" chart-click="onClick"></canvas>
+            </div>
+            <div class="chart-stage" ng-if="includeDesktopTemplate">
+                <canvas class="chart chart-line" chart-data="data" chart-labels="labels" height="25" width="100"
+                        chart-series="series" chart-click="onClick"></canvas>
+            </div>
+            <div class="chart-title text-center">
+                <div class="btn-group">
+                    <button type="button" ng-model="activeCustomer" value="active" ng-click="dayData()"
+                            class="btn btn-default active">Day
+                    </button>
+                    <button type="button" ng-model="activeCustomer" value="inactive" ng-click="monthData()"
+                            class="btn btn-default">Month
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 </div>

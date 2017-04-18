@@ -157,3 +157,8 @@ input::-webkit-input-placeholder {
     color: white;
 }
 
+
+.rcactive, .rcinactive {font-size:40px;cursor:pointer;}
+.rcactive, .rcinactive {font-size:40px;cursor:pointer;}
+i.rcactive { color: #5cb85c}
+i.rcinactive{color: #d9534f}
