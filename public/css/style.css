@@ -157,8 +157,30 @@ input::-webkit-input-placeholder {
     color: white;
 }
 
+.rcactive, .rcinactive {
+    font-size:49px;
+    cursor:pointer;
+}
 
-.rcactive, .rcinactive {font-size:40px;cursor:pointer;}
-.rcactive, .rcinactive {font-size:40px;cursor:pointer;}
-i.rcactive { color: #5cb85c}
-i.rcinactive{color: #d9534f}
+.rcactive, .rcinactive {
+    font-size:49px;
+    cursor:pointer;
+}
+
+
+
+i.rcactive {
+    color: #5cb85c;
+}
+i.rcinactive{
+    color: #d9534f;
+}
+
+.relayBtnText {
+    font-size: 20px;
+    padding-top: 10px;
+}
+.relayBtnText {
+    font-size: 20px;
+    padding-top: 10px;
+}

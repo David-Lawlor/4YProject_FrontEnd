@@ -42,39 +42,52 @@
 
             </div>
         </div>
-        <div class="col-sm-12 col-md-4 relayControl" ng-controller="RelayControl" ng-init="init()">
+        <div class="col-sm-12 col-md-2 relayControl" ng-controller="RelayControl" ng-init="init()">
             <div class="chart-wrapper">
                 <div class="chart-title">
+                    <strong>Relay Control</strong>
                 </div>
                 <div class="chart-stage">
-                    <div>
-                        <i class="fa fa-toggle-on rcactive" ng-if="relays[0] == true" ng-click="changeStatusBtn1();"></i>
-                        <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[0] == false"
-                           ng-click="changeStatusBtn1();"></i>
+                    <div class="col-xs-12">
+                        <div class="col-xs-6">
+                            <p class="relayBtnText">Relay 1</p>
+                        </div>
+                        <div class="col-xs-6">
+                            <i class="fa fa-toggle-on rcactive" ng-if="relays[0] == true" ng-click="changeStatusBtn1();"></i>
+                            <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[0] == false" ng-click="changeStatusBtn1();"></i>
+                        </div>
                     </div>
-                    <div>
-                        <i class="fa fa-toggle-on rcactive" ng-if="relays[1] == true" ng-click="changeStatusBtn2();"></i>
-                        <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[1] == false"
-                           ng-click="changeStatusBtn2();"></i>
+                    <div class="col-xs-12" >
+                        <div class="col-xs-6">
+                            <p class="relayBtnText">Relay 2</p>
+                        </div>
+                        <div class="col-xs-6">
+                            <i class="fa fa-toggle-on rcactive" ng-if="relays[1] == true" ng-click="changeStatusBtn2();"></i>
+                            <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[1] == false" ng-click="changeStatusBtn2();"></i>
+                        </div>
                     </div>
-                    <div>
-                        <i class="fa fa-toggle-on rcactive" ng-if="relays[2] == true" ng-click="changeStatusBtn3();"></i>
-                        <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[2] == false"
-                           ng-click="changeStatusBtn3();"></i>
+                    <div class="col-xs-12">
+                        <div class="col-xs-6">
+                            <p class="relayBtnText">Relay 3</p>
+                        </div>
+                        <div class="col-xs-6">
+                            <i class="fa fa-toggle-on rcactive" ng-if="relays[2] == true" ng-click="changeStatusBtn3();"></i>
+                            <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[2] == false" ng-click="changeStatusBtn3();"></i>
+                        </div>
                     </div>
-                    <div>
-                        <i class="fa fa-toggle-on rcactive" ng-if="relays[3] == true" ng-click="changeStatusBtn4();"></i>
-                        <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[3] == false"
-                           ng-click="changeStatusBtn4();"></i>
+                    <div class="col-xs-12" >
+                        <div class="col-xs-6">
+                            <p class="relayBtnText">Relay 4</p>
+                         </div>
+                        <div class="col-xs-6">
+                            <i class="fa fa-toggle-on rcactive" ng-if="relays[3] == true" ng-click="changeStatusBtn4();"></i>
+                            <i class="fa fa-toggle-on fa-rotate-180 rcinactive" ng-if="relays[3] == false" ng-click="changeStatusBtn4();"></i>
+                        </div>
                     </div>
-                    <pre>{[{ relays[0] }]}</pre>
-                    <pre>{[{ relays[1] }]}</pre>
-                    <pre>{[{ relays[2] }]}</pre>
-                    <pre>{[{ relays[3] }]}</pre>
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-4">
+        <div class="col-sm-12 col-md-6">
             <div class="chart-wrapper">
                 <div class="chart-title">
                 </div>
