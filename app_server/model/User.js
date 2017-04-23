@@ -105,14 +105,10 @@ function userExists(userSearch, callback) {
         } else {
             console.log("Query succeeded.");
         }
-        console.log("1");
-        console.log(data.Items[0]);
         if(data.Items[0]){
-            console.log("2");
             callback(data.Items[0].email);
         }
         else{
-            console.log("3");
             callback();
         }
     });
