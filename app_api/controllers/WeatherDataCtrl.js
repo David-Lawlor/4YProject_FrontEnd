@@ -9,7 +9,8 @@ module.exports.weather = function(req, res) {
         req.connection.remoteAddress ||
         req.socket.remoteAddress;
 
-    logger.log("info", typeof ip);
+    ip = ip.split(",")[0];
+    
     var geoIpDetails = {
         host: 'freegeoip.net',
         path: '/json/' + ip,
