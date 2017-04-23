@@ -5,10 +5,11 @@ var logger = require('winston');
 
 module.exports.weather = function(req, res) {
     logger.log("info", "api weather data called");
-    var ip = //req.headers['x-forwarded-for']// ||
-        req.connection.remoteAddress; //||
-        //req.socket.remoteAddress;
+    var ip = req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress;
 
+    logger.log("info", typeof ip);
     var geoIpDetails = {
         host: 'freegeoip.net',
         path: '/json/' + ip,
