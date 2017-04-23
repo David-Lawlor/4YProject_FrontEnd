@@ -6,12 +6,11 @@ app.controller("RelayControl", function ($scope, $http, sharedProperties, dataFa
             .then(function successCallback(response) {
                 var index = 0;
                 angular.forEach(response.data.reported, function(value, key) {
-                    console.log(index + "   " + key + ': ' + value);
                     $scope.relays[index] = value == 'ON';
                     index++;
                 });
             }, function errorCallback(response) {
-                console.log(response)
+                console.log("error getting relay states")
             });
     };
 

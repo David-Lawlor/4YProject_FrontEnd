@@ -1,8 +1,8 @@
-app.controller("Room2Humid", function ($scope, dataFactory, $window, userId) {
+app.controller("Room2Humid", function ($scope, dataFactory, $window, userId, sharedProperties) {
 
     $scope.labels = [];
     $scope.series = ['Series A'];
-    $scope.message = "Loading...";
+    $scope.message = "Preparing your data...";
     $scope.data = [];
     $scope.response = {};
 
@@ -23,8 +23,9 @@ app.controller("Room2Humid", function ($scope, dataFactory, $window, userId) {
             $scope.message = "Room 2 Humidity";
             $scope.data = [response.data.Day.graphData];
             $scope.labels = response.data.Day.graphLabels;
+            sharedProperties.setCurrentRoom2Humidity(response.data.CurrentReading);
         }, function errorCallback(response) {
-            console.log(response)
+            console.log("error getting humidity data")
         });
 
     $scope.dayData = function(){

@@ -76,6 +76,7 @@ module.exports.sensordata = function(req, res) {
             responseCreator.sendResponse(res, 404, [])
         } else {
             logger.log('info', "sending response from lambda");
+            logger.log('info', "lambda data", JSON.parse(data.Payload));
             responseCreator.sendResponse(res, 200, JSON.parse(data.Payload));
         }
     })

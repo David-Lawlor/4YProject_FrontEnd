@@ -11,7 +11,7 @@
                 </div>
                 <div class="chart-stage" style="padding: 0; border: 0; margin: 0">
                     <div class="col-md-4">
-                        <img ng-src="{[{weatherIcon}]}" style="height: 180px; width: 200px;"/>
+                        <img class="current-reading-img" ng-src="{[{weatherIcon}]}" style="height: 180px; width: 200px;"/>
                     </div>
                     <div class="col-xs-12 col-md-8">
                         <table class="col-xs-12 col-md-8 table .table-sm table-striped">
@@ -88,12 +88,64 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-6" ng-controller="CurrentData">
             <div class="chart-wrapper">
                 <div class="chart-title">
+                    <strong>{[{title}]}</strong>
                 </div>
                 <div class="chart-stage">
-                    <img data-src="holder.js/100%x120/white">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="chart-title current-reading-title">
+                            <strong>Room 1 Temperature</strong>
+                        </div>
+                        <div>
+                            <div class="col-xs-12">
+                                <img class="current-reading-img" ng-src="{[{room1TempImageUrl}]}"/>
+                            </div>
+                            <div class="col-xs-12 current-reading-value">
+                                {[{currentRoom1Temperature}]}&deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="chart-title current-reading-title">
+                            <strong>Room 1 Light</strong>
+                        </div>
+                        <div>
+                            <div class="col-xs-12">
+                                <img class="current-reading-img" ng-src="{[{room1LightImageUrl}]}"/>
+                            </div>
+                            <div class="col-xs-12 current-reading-value">
+                                {[{currentRoom1Light}]} LUX
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="chart-title current-reading-title">
+                            <strong>Room 2 Temperature</strong>
+                        </div>
+                        <div>
+                            <div class="col-xs-12">
+                                <img class="current-reading-img" ng-src="{[{room2TempImageUrl}]}"/>
+                            </div>
+                            <div class="col-xs-12 current-reading-value">
+                                {[{currentRoom2Temperature}]}&deg;C
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="chart-title current-reading-title">
+                            <strong>Room 2 Humidity</strong>
+                        </div>
+                        <div>
+                            <div class="col-xs-12">
+                                <img class="current-reading-img" ng-src="{[{room2HumidImageUrl}]}"/>
+                            </div>
+                            <div class="col-xs-12 current-reading-value">
+                                {[{currentRoom2Humidity}]}&#37;
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

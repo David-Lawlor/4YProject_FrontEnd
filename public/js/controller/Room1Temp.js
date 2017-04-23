@@ -1,8 +1,8 @@
-app.controller("Room1Temp", function ($scope, dataFactory, $window, userId) {
+app.controller("Room1Temp", function ($scope, dataFactory, $window, userId, sharedProperties) {
 
     $scope.labels = [];
     $scope.series = ['Series A'];
-    $scope.message = "Loading...";
+    $scope.message = "Preparing your data...";
     $scope.data = [];
     $scope.response = {};
 
@@ -24,8 +24,9 @@ app.controller("Room1Temp", function ($scope, dataFactory, $window, userId) {
             $scope.message = "Room 1 Temperature";
             $scope.data = [response.data.Day.graphData];
             $scope.labels = response.data.Day.graphLabels;
+            sharedProperties.setCurrentRoom1Temperature(response.data.CurrentReading);
         }, function errorCallback(response) {
-            console.log(response)
+            console.log("error getting temperature data")
         });
 
     $scope.dayData = function(){

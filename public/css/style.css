@@ -167,8 +167,6 @@ input::-webkit-input-placeholder {
     cursor:pointer;
 }
 
-
-
 i.rcactive {
     color: #5cb85c;
 }
@@ -184,3 +182,27 @@ i.rcinactive{
     font-size: 20px;
     padding-top: 10px;
 }
+
+.current-reading-title{
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.current-reading-value{
+    text-align: center;
+    font-size: 20px;
+    font-family: "Arial", Gadget, sans-serif;
+    padding-bottom: 10px;
+}
+
+img.current-reading-img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0 10px 0;
+    height: 125px;
+    width: 100px;
+}
+
+
+
