@@ -24,7 +24,7 @@ app.controller("CurrentData", function ($scope, $timeout, sharedProperties) {
             $scope.room1LightImageUrl = '/public/images/light-bright.png';
         }
         else{
-            $scope.room1LightImageUrl = '/public/images/light-bright.png';
+            $scope.room1LightImageUrl = '/public/images/light-dark.png';
         }
         $scope.room2HumidImageUrl = '/public/images/Humidity.png'
     }, 5000)

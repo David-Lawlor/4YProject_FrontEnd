@@ -34,7 +34,6 @@ module.exports.createUser = function (newUser, callback) {
         if (!existingUser) {
             var shasum = crypto.createHash('sha1');
             var id = shasum.update(newUser.mac).digest("hex");
-            console.log(id);
             var params = {
                 TableName: "Users",
                 Item: {
@@ -67,8 +66,6 @@ module.exports.createUser = function (newUser, callback) {
             callback(new Error("User already exists"));
         }
     });
-
-
 };
 
 module.exports.getUserByEmail = function (emailIn, callback) {
