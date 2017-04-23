@@ -1,4 +1,4 @@
-var User = require("../model/user");
+var User = require("../model/User");
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;

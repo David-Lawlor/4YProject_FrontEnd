@@ -1,4 +1,4 @@
-app.controller("Room1Light", function ($scope, $timeout, dataFactory, $window) {
+app.controller("Room1Light", function ($scope, $timeout, dataFactory, $window, userId) {
 
     $scope.labels = [];
     $scope.series = ['Series A'];
@@ -18,7 +18,7 @@ app.controller("Room1Light", function ($scope, $timeout, dataFactory, $window) {
     }
 
 
-    dataFactory.room1LightData()
+    dataFactory.room1LightData(userId)
     // Simple GET request example:
         .then(function successCallback(response) {
             $scope.response = response;

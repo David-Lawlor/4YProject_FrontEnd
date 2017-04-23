@@ -1,4 +1,4 @@
-app.controller("Room2Humid", function ($scope, dataFactory, $window) {
+app.controller("Room2Humid", function ($scope, dataFactory, $window, userId) {
 
     $scope.labels = [];
     $scope.series = ['Series A'];
@@ -8,7 +8,6 @@ app.controller("Room2Humid", function ($scope, dataFactory, $window) {
 
     $scope.includeDesktopTemplate = false;
     $scope.includeMobileTemplate = false;
-
     var screenWidth = $window.innerWidth;
 
     if (screenWidth < 600){
@@ -17,7 +16,7 @@ app.controller("Room2Humid", function ($scope, dataFactory, $window) {
         $scope.includeDesktopTemplate = true;
     }
 
-    dataFactory.room2HumidityData()
+    dataFactory.room2HumidityData(userId)
     // Simple GET request example:
         .then(function successCallback(response) {
             $scope.response = response;

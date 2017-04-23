@@ -1,4 +1,6 @@
-var User = require("../model/user");
+var User = require("../model/User");
+var auth = require('../../app_server/config/Passport');
+var logger = require('winston');
 
 module.exports.GetLogout = function(req, res) {
     req.logout();
@@ -7,15 +9,20 @@ module.exports.GetLogout = function(req, res) {
 };
 
 module.exports.GetLogin = function(req, res) {
+    if(req.user){
+        return res.redirect('/');
+    }
     res.render('login');
 };
 
 module.exports.PostLogin = function(req, res) {
-    console.log("post login");
     res.redirect('/');
 };
 
 module.exports.GetRegister = function(req, res) {
+    if(req.user){
+        return res.redirect('/');
+    }
     res.render('register');
 };
 
@@ -43,6 +50,7 @@ module.exports.PostRegister = function(req, res) {
 
     if(errors)
     {
+        logger.log("error", "error in register form");
         res.render("register", {errors:errors});
     }
     else

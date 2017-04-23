@@ -2,15 +2,11 @@ var AWS = require('aws-sdk');
 AWS.config.region = 'eu-west-1';
 var lambda = new AWS.Lambda();
 var moment = require("moment");
+var logger = require('winston');
+var responseCreator = require('./ResponseCreator');
 
 module.exports.sensordata = function(req, res) {
-
-    var tempid = '3945a475429ba283aeabd41d4b0d43b7b0c6c0b4';
-    console.log("api sensor data called");
-
-    var requestDetails = {"status" : "success", "Room": req.params.location, "sensor": req.params.sensor, "userid": req.params.userId};
-
-    console.log(requestDetails);
+    logger.log('info', "api sensor data called", {"Room": req.params.location, "sensor": req.params.sensor});
 
     var location = req.params.location;
     var sensor = req.params.sensor;
@@ -18,6 +14,7 @@ module.exports.sensordata = function(req, res) {
     var tableExtension;
     var sensorAttribute;
     var sensorLocation;
+    var userid = req.params.userId;
 
     if(location.toUpperCase() === "room1".toUpperCase()){
         sensorLocation = "Room 1";
@@ -42,11 +39,11 @@ module.exports.sensordata = function(req, res) {
         sensorAttribute = "Current_Humidity";
     }
     else {
-        sendResponse(res, 404, []);
+        responseCreator.sendResponse(res, 404, []);
     }
 
-    var queryDateMonth = getQueryDate(30);
-    var queryDateDay = getQueryDate(1);
+    var queryDateMonth = exports.getQueryDate(30);
+    var queryDateDay = exports.getQueryDate(1);
 
     var lambdaPayload = {
         "table": queryTable,
@@ -55,10 +52,16 @@ module.exports.sensordata = function(req, res) {
         "sensorLocation": sensorLocation,
         "queryDateMonth": queryDateMonth,
         "queryDateDay": queryDateDay,
-        "id": tempid
+        "id": userid
     };
 
-    console.log(JSON.stringify(lambdaPayload));
+    logger.log('info', "lambda query payload", {
+        "table": queryTable,
+        "tableExt": tableExtension,
+        "sensorAttribute": sensorAttribute,
+        "sensorLocation": sensorLocation,
+        "queryDateMonth": queryDateMonth,
+        "queryDateDay": queryDateDay});
 
     var params = {
         FunctionName: 'DataProcessing', // the lambda function we are going to invoke
@@ -66,23 +69,19 @@ module.exports.sensordata = function(req, res) {
         LogType: 'Tail',
         Payload: JSON.stringify(lambdaPayload)
     };
-    console.log("invoking lambda");
+    logger.log('info', "invoking lambda");
     lambda.invoke(params, function(err, data) {
         if (err) {
-            console.log(err);
-            sendResponse(res, 404, [])
+            logger.error('error', err);
+            responseCreator.sendResponse(res, 404, [])
         } else {
-            sendResponse(res, 200, JSON.parse(data.Payload));
+            logger.log('info', "sending response from lambda");
+            responseCreator.sendResponse(res, 200, JSON.parse(data.Payload));
         }
     })
 };
 
-var sendResponse = function (res, status, content) {
-    res.status(status);
-    res.json(content);
-};
-
-var getQueryDate = function(days){
+module.exports.getQueryDate = function(days){
     /*
      Timestamp format required for dynamodb 20170402T000424Z
      Timestamp format output of moment.js 2017-03-14T21:55:50.903Z

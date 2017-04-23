@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 
-var ctrlLogin = require('../controllers/loginCtrl');
-var passportConfig = require('../config/passport');
+var ctrlLogin = require('../controllers/LoginCtrl');
+var passportConfig = require('../config/Passport');
 
 router.get('/register', ctrlLogin.GetRegister);
 

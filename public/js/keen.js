@@ -423,8 +423,8 @@ module.exports = Emitter;
  */
 function Emitter(obj) {
   if (obj) return mixin(obj);
-};
-/**
+}
+    /**
  * Mixin the emitter properties.
  *
  * @param {Object} obj
@@ -551,8 +551,8 @@ Emitter.prototype.hasListeners = function(event){
   * domready (c) Dustin Diaz 2012 - License MIT
   */
 !function (name, definition) {
-  if (typeof module != 'undefined') module.exports = definition()
-  else if (typeof define == 'function' && typeof define.amd == 'object') define(definition)
+  if (typeof module != 'undefined') module.exports = definition();
+  else if (typeof define == 'function' && typeof define.amd == 'object') define(definition);
   else this[name] = definition()
 }('domready', function (ready) {
   var fns = [], fn, f = false
@@ -564,21 +564,21 @@ Emitter.prototype.hasListeners = function(event){
     , onreadystatechange = 'onreadystatechange'
     , readyState = 'readyState'
     , loadedRgx = hack ? /^loaded|^c/ : /^loaded|c/
-    , loaded = loadedRgx.test(doc[readyState])
+    , loaded = loadedRgx.test(doc[readyState]);
   function flush(f) {
-    loaded = 1
+    loaded = 1;
     while (f = fns.shift()) f()
   }
   doc[addEventListener] && doc[addEventListener](domContentLoaded, fn = function () {
-    doc.removeEventListener(domContentLoaded, fn, f)
+    doc.removeEventListener(domContentLoaded, fn, f);
     flush()
-  }, f)
+  }, f);
   hack && doc.attachEvent(onreadystatechange, fn = function () {
     if (/^c/.test(doc[readyState])) {
-      doc.detachEvent(onreadystatechange, fn)
+      doc.detachEvent(onreadystatechange, fn);
       flush()
     }
-  })
+  });
   return (ready = hack ?
     function (fn) {
       self != top ?
@@ -603,9 +603,9 @@ Emitter.prototype.hasListeners = function(event){
  */
 (function(root, factory) {
   /* CommonJS */
-  if (typeof exports == 'object')  module.exports = factory()
+  if (typeof exports == 'object')  module.exports = factory();
   /* AMD module */
-  else if (typeof define == 'function' && define.amd) define(factory)
+  else if (typeof define == 'function' && define.amd) define(factory);
   /* Browser global */
   else root.Spinner = factory()
 }
@@ -613,14 +613,14 @@ Emitter.prototype.hasListeners = function(event){
   "use strict";
   var prefixes = ['webkit', 'Moz', 'ms', 'O'] /* Vendor prefixes */
     , animations = {} /* Animation rules keyed by their name */
-    , useCssAnimations /* Whether to use CSS animations or setTimeout */
+    , useCssAnimations; /* Whether to use CSS animations or setTimeout */
   /**
    * Utility function to create elements. If no tag name is given,
    * a DIV is created. Optionally properties can be passed.
    */
   function createEl(tag, prop) {
     var el = document.createElement(tag || 'div')
-      , n
+      , n;
     for(n in prop) el[n] = prop[n]
     return el
   }
@@ -636,10 +636,10 @@ Emitter.prototype.hasListeners = function(event){
    * Insert a new stylesheet to hold the @keyframe or VML rules.
    */
   var sheet = (function() {
-    var el = createEl('style', {type : 'text/css'})
-    ins(document.getElementsByTagName('head')[0], el)
+    var el = createEl('style', {type : 'text/css'});
+    ins(document.getElementsByTagName('head')[0], el);
     return el.sheet || el.styleSheet
-  }())
+  }());
   /**
    * Creates an opacity keyframe animation rule and returns its name.
    * Since most mobile Webkits have timing issues with animation-delay,
@@ -650,7 +650,7 @@ Emitter.prototype.hasListeners = function(event){
       , start = 0.01 + i/lines * 100
       , z = Math.max(1 - (1-alpha) / trail * (100-start), alpha)
       , prefix = useCssAnimations.substring(0, useCssAnimations.indexOf('Animation')).toLowerCase()
-      , pre = prefix && '-' + prefix + '-' || ''
+      , pre = prefix && '-' + prefix + '-' || '';
     if (!animations[name]) {
       sheet.insertRule(
         '@' + pre + 'keyframes ' + name + '{' +
@@ -659,7 +659,7 @@ Emitter.prototype.hasListeners = function(event){
         (start+0.01) + '%{opacity:1}' +
         (start+trail) % 100 + '%{opacity:' + alpha + '}' +
         '100%{opacity:' + z + '}' +
-        '}', sheet.cssRules.length)
+        '}', sheet.cssRules.length);
       animations[name] = 1
     }
     return name
@@ -670,10 +670,10 @@ Emitter.prototype.hasListeners = function(event){
   function vendor(el, prop) {
     var s = el.style
       , pp
-      , i
-    prop = prop.charAt(0).toUpperCase() + prop.slice(1)
+      , i;
+    prop = prop.charAt(0).toUpperCase() + prop.slice(1);
     for(i=0; i<prefixes.length; i++) {
-      pp = prefixes[i]+prop
+      pp = prefixes[i]+prop;
       if(s[pp] !== undefined) return pp
     }
     if(s[prop] !== undefined) return prop
@@ -691,7 +691,7 @@ Emitter.prototype.hasListeners = function(event){
    */
   function merge(obj) {
     for (var i=1; i < arguments.length; i++) {
-      var def = arguments[i]
+      var def = arguments[i];
       for (var n in def)
         if (obj[n] === undefined) obj[n] = def[n]
     }
@@ -721,12 +721,12 @@ Emitter.prototype.hasListeners = function(event){
     top: '50%',          
     left: '50%',         
     position: 'absolute' 
-  }
+  };
   /** The constructor */
   function Spinner(o) {
     this.opts = merge(o || {}, Spinner.defaults, defaults)
   }
-  Spinner.defaults = {}
+  Spinner.defaults = {};
   merge(Spinner.prototype, {
     /**
      * Adds the spinner to the given target element. If this instance is already
@@ -734,19 +734,19 @@ Emitter.prototype.hasListeners = function(event){
      * stop() internally.
      */
     spin: function(target) {
-      this.stop()
+      this.stop();
       var self = this
         , o = self.opts
-        , el = self.el = css(createEl(0, {className: o.className}), {position: o.position, width: 0, zIndex: o.zIndex})
+        , el = self.el = css(createEl(0, {className: o.className}), {position: o.position, width: 0, zIndex: o.zIndex});
       css(el, {
         left: o.left,
         top: o.top
-      })
+      });
       if (target) {
         target.insertBefore(el, target.firstChild||null)
       }
-      el.setAttribute('role', 'progressbar')
-      self.lines(el, self.opts)
+      el.setAttribute('role', 'progressbar');
+      self.lines(el, self.opts);
       if (!useCssAnimations) {
         var i = 0
           , start = (o.lines - 1) * (1 - o.direction) / 2
@@ -758,7 +758,7 @@ Emitter.prototype.hasListeners = function(event){
         ;(function anim() {
           i++;
           for (var j = 0; j < o.lines; j++) {
-            alpha = Math.max(1 - (i + (o.lines - j) * astep) % f * ostep, o.opacity)
+            alpha = Math.max(1 - (i + (o.lines - j) * astep) % f * ostep, o.opacity);
             self.opacity(el, j * o.direction + start, alpha, o)
           }
           self.timeout = self.el && setTimeout(anim, ~~(1000/fps))
@@ -770,10 +770,10 @@ Emitter.prototype.hasListeners = function(event){
      * Stops and removes the Spinner.
      */
     stop: function() {
-      var el = this.el
+      var el = this.el;
       if (el) {
-        clearTimeout(this.timeout)
-        if (el.parentNode) el.parentNode.removeChild(el)
+        clearTimeout(this.timeout);
+        if (el.parentNode) el.parentNode.removeChild(el);
         this.el = undefined
       }
       return this
@@ -785,7 +785,7 @@ Emitter.prototype.hasListeners = function(event){
     lines: function(el, o) {
       var i = 0
         , start = (o.lines - 1) * (1 - o.direction) / 2
-        , seg
+        , seg;
       function fill(color, shadow) {
         return css(createEl(), {
           position: 'absolute',
@@ -805,8 +805,8 @@ Emitter.prototype.hasListeners = function(event){
           transform: o.hwaccel ? 'translate3d(0,0,0)' : '',
           opacity: o.opacity,
           animation: useCssAnimations && addAnimation(o.opacity, o.trail, start + i * o.direction, o.lines) + ' ' + 1/o.speed + 's linear infinite'
-        })
-        if (o.shadow) ins(seg, css(fill('#000', '0 0 4px ' + '#000'), {top: 2+'px'}))
+        });
+        if (o.shadow) ins(seg, css(fill('#000', '0 0 4px ' + '#000'), {top: 2+'px'}));
         ins(el, ins(seg, fill(getColor(o.color, i), '0 0 1px rgba(0,0,0,.1)')))
       }
       return el
@@ -818,16 +818,16 @@ Emitter.prototype.hasListeners = function(event){
     opacity: function(el, i, val) {
       if (i < el.childNodes.length) el.childNodes[i].style.opacity = val
     }
-  })
+  });
   function initVML() {
     /* Utility function to create a VML tag */
     function vml(tag, attr) {
       return createEl('<' + tag + ' xmlns="urn:schemas-microsoft.com:vml" class="spin-vml">', attr)
     }
-    sheet.addRule('.spin-vml', 'behavior:url(#default#VML)')
+    sheet.addRule('.spin-vml', 'behavior:url(#default#VML)');
     Spinner.prototype.lines = function(el, o) {
       var r = o.length+o.width
-        , s = 2*r
+        , s = 2*r;
       function grp() {
         return css(
           vml('group', {
@@ -839,7 +839,7 @@ Emitter.prototype.hasListeners = function(event){
       }
       var margin = -(o.width+o.length)*2 + 'px'
         , g = css(grp(), {position: 'absolute', top: margin, left: margin})
-        , i
+        , i;
       function seg(i, dx, filter) {
         ins(g,
           ins(css(grp(), {rotation: 360 / o.lines * i + 'deg', left: ~~dx}),
@@ -861,19 +861,19 @@ Emitter.prototype.hasListeners = function(event){
           seg(i, -2, 'progid:DXImageTransform.Microsoft.Blur(pixelradius=2,makeshadow=1,shadowopacity=.3)')
       for (i = 1; i <= o.lines; i++) seg(i)
       return ins(el, g)
-    }
+    };
     Spinner.prototype.opacity = function(el, i, val, o) {
-      var c = el.firstChild
-      o = o.shadow && o.lines || 0
+      var c = el.firstChild;
+      o = o.shadow && o.lines || 0;
       if (c && i+o < c.childNodes.length) {
-        c = c.childNodes[i+o]; c = c && c.firstChild; c = c && c.firstChild
+        c = c.childNodes[i+o]; c = c && c.firstChild; c = c && c.firstChild;
         if (c) c.opacity = val
       }
     }
   }
-  var probe = css(createEl('group'), {behavior: 'url(#default#VML)'})
-  if (!vendor(probe, 'transform') && probe.adj) initVML()
-  else useCssAnimations = vendor(probe, 'animation')
+  var probe = css(createEl('group'), {behavior: 'url(#default#VML)'});
+  if (!vendor(probe, 'transform') && probe.adj) initVML();
+  else useCssAnimations = vendor(probe, 'animation');
   return Spinner
 }));
 },{}],7:[function(require,module,exports){
@@ -891,8 +891,9 @@ var root = 'undefined' == typeof window
 /**
  * Noop.
  */
-function noop(){};
-/**
+function noop() {
+}
+    /**
  * Check if `obj` is a host object,
  * we don't want to serialize these :)
  *
@@ -1065,8 +1066,8 @@ function parseHeader(str) {
  */
 function type(str){
   return str.split(/ *; */).shift();
-};
-/**
+}
+    /**
  * Return header field parameters.
  *
  * @param {String} str
@@ -1081,8 +1082,8 @@ function params(str){
     if (key && val) obj[key] = val;
     return obj;
   }, {});
-};
-/**
+}
+    /**
  * Initialize a new `Response` with the given `xhr`.
  *
  *  - set flags (.ok, .error, etc)
@@ -1283,7 +1284,7 @@ Emitter(Request.prototype);
 Request.prototype.use = function(fn) {
   fn(this);
   return this;
-}
+};
 /**
  * Set timeout to `ms`.
  *
@@ -1940,7 +1941,7 @@ module.exports = function(err, res, callback) {
   else {
     cb(null, res.body);
   }
-  return;
+
 };
 },{}],18:[function(require,module,exports){
 var superagent = require('superagent');
@@ -2283,7 +2284,7 @@ module.exports = function(collection, payload, callback, async) {
       cb = callback = null;
     }
   }
-  return;
+
 };
 function prepareGetRequest(url, data){
   url += getQueryString({
@@ -2362,7 +2363,7 @@ module.exports = function(payload, callback) {
       cb = callback = null;
     }
   }
-  return;
+
 };
 },{"../helpers/get-context":12,"../helpers/get-xhr-object":16,"../helpers/superagent-handle-response":17,"../helpers/superagent-request-types":18,"../index":19,"../utils/each":31,"superagent":7}],22:[function(require,module,exports){
 var request = require('superagent');
@@ -2479,8 +2480,8 @@ var each = require("./utils/each"),
 var Emitter = require('./helpers/emitter-shim');
 function Query(){
   this.configure.apply(this, arguments);
-};
-Emitter(Query.prototype);
+}
+    Emitter(Query.prototype);
 Query.prototype.configure = function(analysisType, params) {
   this.analysis = analysisType;
   this.params = this.params || {};
@@ -2546,8 +2547,8 @@ function Request(client, queries, callback){
   };
   this.configure(client, queries, cb);
   cb = callback = null;
-};
-Emitter(Request.prototype);
+}
+    Emitter(Request.prototype);
 Request.prototype.configure = function(client, queries, callback){
   var cb = callback;
   extend(this, {
@@ -2712,8 +2713,8 @@ function parseParams(str){
     urlParams[decode(match[1])] = decode(match[2]);
   }
   return urlParams;
-};
-module.exports = parseParams;
+}
+    module.exports = parseParams;
 },{}],34:[function(require,module,exports){
 var request = require('superagent');
 var getContext = require('../helpers/get-context'),
@@ -2763,7 +2764,7 @@ module.exports = function(path, params, callback){
     responseHandler(err, res, cb);
     cb = callback = null;
   }
-  return;
+
 }
 },{"../helpers/get-context":12,"../helpers/get-query-string":13,"../helpers/get-url-max-length":15,"../helpers/get-xhr-object":16,"../helpers/superagent-handle-response":17,"../helpers/superagent-request-types":18,"superagent":7}],35:[function(require,module,exports){
 var clone = require("../core/utils/clone"),
@@ -2798,7 +2799,7 @@ Dataset.prototype.output = function(arr){
   if (!arguments.length) return this["data"].output;
   this["data"].output = (arr instanceof Array ? arr : null);
   return this;
-}
+};
 Dataset.prototype.method = function(str){
   if (!arguments.length) return this.meta["method"];
   this.meta["method"] = (str ? String(str) : null);
@@ -3174,7 +3175,7 @@ module.exports = {
 };
 function filterColumns(fn){
   var self = this,
-      clone = new Array();
+      clone = [];
   each(self.data.output, function(row, i){
     clone.push([]);
   });
@@ -3366,7 +3367,7 @@ module.exports = {
   "selectRow": selectRow
 };
 function selectColumn(q){
-  var result = new Array(),
+  var result = [],
       index = (!isNaN(parseInt(q))) ? q : this.output()[0].indexOf(q);
   if (index > -1) {
     each(this.data.output, function(row, i){
@@ -3550,7 +3551,7 @@ module.exports = function() {
       } else {
         return loop.apply(this, [el].concat(args.splice(1)).concat(target));
       }
-      return;
+
     });
     if (result.length > 0) {
       return result;
@@ -3721,7 +3722,7 @@ module.exports = function(){
       } else {
         result.labels.push(l);
       }
-    })
+    });
     each(self.dataset.selectRow(0).slice(1), function(label, i){
       var hex = {
         r: hexToR(self.colors()[i]),
@@ -4125,8 +4126,8 @@ function Dataviz(){
     loader: { library: "keen-io", chartType: "spinner" }
   };
   Dataviz.visuals.push(this);
-};
-extend(Dataviz, {
+}
+    extend(Dataviz, {
   dataTypeMap: {
     "singular":          { library: "keen-io", chartType: "metric"      },
     "categorical":       { library: "google",  chartType: "piechart"    },
@@ -4246,7 +4247,7 @@ module.exports = function(query, el, cfg) {
 };
 },{"../../core/request":28,"../../core/utils/clone":30,"../../core/utils/extend":32,"../dataviz":52}],54:[function(require,module,exports){
 var Dataviz = require("../dataviz"),
-    extend = require("../../core/utils/extend")
+    extend = require("../../core/utils/extend");
 module.exports = function(){
   var map = extend({}, Dataviz.dataTypeMap),
       dataType = this.dataType(),
@@ -4735,13 +4736,13 @@ function parseRawData(response){
             type: "number"
           }
         }
-      }
+      };
       for (var key in response.result[0].value[0]){
         if (response.result[0].value[0].hasOwnProperty(key) && key !== "result"){
           schema.unpack.label = {
             path: "value -> " + key,
             type: "string"
-          }
+          };
           break;
         }
       }
@@ -4830,7 +4831,7 @@ function runSortGroups(){
   else if (dt && (dt.indexOf("cat-") > -1 || dt.indexOf("categorical") > -1)) {
     this.dataset.sortRows(this.sortGroups(), this.dataset.getRowSum);
   }
-  return;
+
 }
 },{}],84:[function(require,module,exports){
 module.exports = function(str){
@@ -4842,7 +4843,7 @@ module.exports = function(str){
 function runSortIntervals(){
   if (!this.sortIntervals()) return;
   this.dataset.sortRows(this.sortIntervals());
-  return;
+
 }
 },{}],85:[function(require,module,exports){
 module.exports = function(str){
@@ -4963,8 +4964,8 @@ module.exports = function(_input) {
 };
 },{}],91:[function(require,module,exports){
 (function (global){
-;(function (f) {
-  if (typeof define === "function" && define.amd) {
+    (function (f) {
+        if (typeof define === "function" && define.amd) {
     define("keen", [], function(){ return f(); });
   }
   if (typeof exports === "object" && typeof module !== "undefined") {

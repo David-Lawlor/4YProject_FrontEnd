@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var dotenv = require('dotenv');
+var winston = require('winston');
 
 var exphbs = require('express-handlebars');
 var expressValidator = require('express-validator');
@@ -14,11 +15,11 @@ var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var index = require('./app_server/routes/index_routes');
-var users = require('./app_server/routes/users_routes');
-var sensorRoutesApi = require('./app_api/routes/sensordata_routes');
-var weatherRoutesApi = require('./app_api/routes/weatherData_routes');
-var shadowRoutesApi = require('./app_api/routes/shadowRoutes');
+var index = require('./app_server/routes/IndexRoutes');
+var users = require('./app_server/routes/UserRoutes');
+var sensorRoutesApi = require('./app_api/routes/SensorDataRoutes');
+var weatherRoutesApi = require('./app_api/routes/WeatherDataRoutes');
+var shadowRoutesApi = require('./app_api/routes/ShadowInteractionRoutes');
 
 // initialise the application
 var app = express();
@@ -41,8 +42,8 @@ app.use(express.static(__dirname));
 app.use(session({
     secret: 'secret',
     cookie: {
-        // 5 minute  cookie timeout
-        maxAge: 300000
+        // 10 minute  cookie timeout
+        maxAge: 600000
     },
     saveUninitialized: true,
     resave: true
@@ -113,10 +114,18 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-module.exports = app;
-
 dotenv.load();
+
+winston.configure({
+    transports: [
+        //new (winston.transports.Console)(),
+        new (winston.transports.File)({ filename: 'application.log' })
+    ]
+});
 
 var listener = app.listen(3001, function(){
     console.log('Listening on port ' + listener.address().port); //Listening on port 8888
 });
+
+
+module.exports = app;

@@ -1,4 +1,4 @@
-app.controller("Room2Temp", function ($scope, dataFactory, $window) {
+app.controller("Room2Temp", function ($scope, dataFactory, $window, userId) {
 
     $scope.labels = [];
     $scope.series = ['Series A'];
@@ -28,7 +28,7 @@ app.controller("Room2Temp", function ($scope, dataFactory, $window) {
         $scope.labels = $scope.response.data.Month.graphLabels;
     };
 
-    dataFactory.room2TemperatureData()
+    dataFactory.room2TemperatureData(userId)
     // Simple GET request example:
         .then(function successCallback(response) {
             $scope.response = response;

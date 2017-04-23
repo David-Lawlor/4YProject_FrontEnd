@@ -1,7 +1,8 @@
 var AWS = require("aws-sdk");
 var bcrypt = require("bcryptjs");
-var database = require("../config/database");
+var database = require("../config/DatabaseConfig");
 var crypto = require("crypto");
+var logger = require('winston');
 
 AWS.config.update(database.dbconfig);
 
@@ -30,9 +31,6 @@ module.exports.createUser = function (newUser, callback) {
     };
 
     userExists(userSearch, function (existingUser) {
-        console.log(existingUser);
-
-        console.log("existing: " + existingUser);
         if (!existingUser) {
             var shasum = crypto.createHash('sha1');
             var id = shasum.update(newUser.mac).digest("hex");
@@ -87,7 +85,7 @@ module.exports.getUserByEmail = function (emailIn, callback) {
         if (err) {
             console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
         } else {
-            console.log("Query succeeded.");
+            logger.log("info", "Query succeeded.");
         }
         callback(null, data.Items[0]);
     });

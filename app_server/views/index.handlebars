@@ -1,4 +1,5 @@
-<div ng-controller="mainController" ng-init="setString('{{id}}')">
+<div id="index" ng-controller="mainController" ng-init="setString('{{id}}')">
+    <span class="hidden">index page</span>
 </div>
 
 
@@ -9,11 +10,11 @@
                     <strong>{[{message}]}</strong>
                 </div>
                 <div class="chart-stage" style="padding: 0; border: 0; margin: 0">
-                    <div class="col-xs-4">
+                    <div class="col-md-4">
                         <img ng-src="{[{weatherIcon}]}" style="height: 180px; width: 200px;"/>
                     </div>
-                    <div class="col-xs-8">
-                        <table class="table .table-sm table-striped">
+                    <div class="col-xs-12 col-md-8">
+                        <table class="col-xs-12 col-md-8 table .table-sm table-striped">
                             <tbody style="padding: 0;">
                             <tr>
                                 <td><strong>Conditions</strong></td>

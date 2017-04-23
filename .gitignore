@@ -8,6 +8,7 @@ logs
 npm-debug.log*
 .env
 
+node-tests
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

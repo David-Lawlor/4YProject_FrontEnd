@@ -1,11 +1,13 @@
 var http = require('http');
+var responseCreator = require('./ResponseCreator');
+var logger = require('winston');
+
 
 module.exports.weather = function(req, res) {
-    console.log("api weather data called");
-    // var ip = req.headers['x-forwarded-for'] ||
-    //     req.connection.remoteAddress ||
-    //     req.socket.remoteAddress;
-    var ip = "78.18.55.12";
+    logger.log("info", "api weather data called");
+    var ip = req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress;
 
     var geoIpDetails = {
         host: 'freegeoip.net',
@@ -14,10 +16,12 @@ module.exports.weather = function(req, res) {
     };
     var apikey = process.env.weatherApiID;
 
+    logger.log("info", "calling geo ip api", geoIpDetails);
     var geoIpRequest = http.request(geoIpDetails, function(geoIpResponse) {
         geoIpResponse.setEncoding('utf8');
         geoIpResponse.on('data', function (geoDetails, err ) {
             if (err){
+                logger.log("error", "error in response from geoip", err);
                 return err;
             }
             else{
@@ -30,14 +34,16 @@ module.exports.weather = function(req, res) {
 
                 var weatherRequest = http.request(api_call, function (weatherResponse, err ){
                     if (err){
-                        sendResponse(res, 404, {})
+                        logger.log("error", "error in response from openweathermap", err);
+                        responseCreator.sendResponse(res, 404, {})
                     }
                     else {
                         weatherResponse.setEncoding('utf8');
                         weatherResponse.on('data', function (weatherDetails) {
                             var jsonWeatherDetails = JSON.parse(weatherDetails);
                             if(jsonWeatherDetails.cod != 200){
-                                sendResponse(res, 404, "Weather data not found")
+                                logger.log("error", "response from openweathermap is not 200 ok");
+                                responseCreator.sendResponse(res, 404, "Weather data not found")
                             }
                             else{
                                 var weatherResponse = {
@@ -55,7 +61,7 @@ module.exports.weather = function(req, res) {
                                         "speed": jsonWeatherDetails.wind.speed
                                     }
                                 };
-                                sendResponse(res, 200, weatherResponse)
+                                responseCreator.sendResponse(res, 200, weatherResponse)
                             }
                         });
                     }
@@ -65,9 +71,4 @@ module.exports.weather = function(req, res) {
         });
     });
     geoIpRequest.end();
-};
-
-var sendResponse = function (res, status, content) {
-    res.status(status);
-    res.json(content);
 };
