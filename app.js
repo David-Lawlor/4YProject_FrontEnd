@@ -24,6 +24,22 @@ var shadowRoutesApi = require('./app_api/routes/ShadowInteractionRoutes');
 // initialise the application
 var app = express();
 
+var helmet = require('helmet');
+
+// Sets "X-Content-Type-Options: nosniff".
+app.use(helmet.noSniff());
+
+app.use(helmet.hidePoweredBy());
+
+// Sets "X-XSS-Protection: 1; mode=block".
+app.use(helmet.xssFilter());
+
+// Sets "Strict-Transport-Security: max-age=5184000; includeSubDomains".
+var sixtyDaysInSeconds = 5184000;
+app.use(helmet.hsts({
+    maxAge: sixtyDaysInSeconds
+}));
+
 // view engine setup
 var viewsPath = path.join(__dirname, 'app_server', 'views');
 app.set('views', viewsPath);

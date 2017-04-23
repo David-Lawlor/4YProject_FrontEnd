@@ -27,6 +27,7 @@
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "*",
+    "helmet": "^3.5.0",
     "http-browserify": "^1.7.0",
     "method-override": "latest",
     "moment": "^2.18.1",
